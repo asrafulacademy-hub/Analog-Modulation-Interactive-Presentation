@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Analog-to-Analog Conversion · Data Communication Lecture 08</title>
+  
+  <!-- Presentation Styles -->
+  <link rel="stylesheet" href="css/presentation.css">
+  <link rel="stylesheet" href="css/lab.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Background Decorative Mesh -->
+  <div class="presentation-bg"></div>
+
+  <!-- Master Application Container -->
+  <div id="presentation-app">
+
+    <!-- Top Navigation Toolbar -->
+    <header class="top-bar">
+      <div class="brand-section">
+        <div class="logo-badge">CSE · L08</div>
+        <div class="course-info">
+          <div class="course-title">Data Communication · Analog-to-Analog Conversion</div>
+          <div class="course-sub">Presenter: Asraful Islam (Roll: 240102029) · University of Barishal</div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button type="button" class="nav-btn special-lab" id="open-lab-modal-btn" title="Open 4-Tab Analog Modulation Lab (L)">
+          🔬 <span>Modulation Lab (L)</span>
+        </button>
+        <button type="button" class="nav-btn" id="overview-toggle-btn" title="Slide Overview & Thumbnails (T)">
+          📑 <span>Overview (T)</span>
+        </button>
+        <button type="button" class="nav-btn" id="notes-toggle-btn" title="Presenter Speaker Notes (N)">
+          🎙 <span>Speaker Notes (N)</span>
+        </button>
+        <button type="button" class="nav-btn" id="projector-toggle-btn" title="High-Contrast Projector Mode (P)">
+          ☀ <span>Projector Mode</span>
+        </button>
+        <button type="button" class="nav-btn" id="fullscreen-toggle-btn" title="Toggle Full Screen (F)">
+          ⛶ <span>Full Screen (F)</span>
+        </button>
+
+        <div class="slide-stepper">
+          <button type="button" class="stepper-btn" id="prev-slide-btn" title="Previous Slide (← / Space)">‹</button>
+          <div class="slide-counter" id="slide-counter-display">1 / 23</div>
+          <button type="button" class="stepper-btn" id="next-slide-btn" title="Next Slide (→)">›</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top Progress Bar -->
+    <div class="presentation-progress-bar">
+      <div class="progress-fill" id="presentation-progress-fill"></div>
+    </div>
+
+    <!-- Main Slide Stage Viewport -->
+    <main class="slide-viewport">
+
+      <!-- ====================================================================
+           SLIDE 1: TITLE SLIDE
+           ==================================================================== -->
+      <section class="slide title-slide active" id="slide-1">
+        <div class="title-content-box">
+          <div class="academic-badge">
+            <span>University of Barishal</span> · <span>Department of CSE</span> · <span>Lecture 08</span>
+          </div>
+          
+          <h1 class="main-title">Analog-to-Analog Conversion</h1>
+          
+          <p class="main-subtitle">
+            Putting Voice and Music onto a High-Frequency Carrier: <strong>Amplitude Modulation (AM)</strong>, <strong>Frequency Modulation (FM)</strong>, and <strong>Phase Modulation (PM)</strong>
+          </p>
+          
+          <div class="title-divider"></div>
+
+          <!-- Presenter Credentials Card -->
+          <div class="presenter-card">
+            <div class="presenter-avatar-box" title="Student Presenter"><svg width="32" height="32" viewBox="0 0 24 24" fill="#070d18"><path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/></svg></div>
+            <div class="presenter-info">
+              <h3>Asraful Islam</h3>
+              <div class="roll-highlight">Roll Number: 240102029</div>
+              <div class="dept">Department of Computer Science and Engineering (CSE)</div>
+              <div class="varsity">University of Barishal · 2nd Year, 2nd Semester</div>
+            </div>
+          </div>
+
+          <!-- Animated Carrier Wave -->
+          <div class="scope-container" style="max-width:820px; width:100%; height:80px; margin-top:6px;">
+            <canvas id="title-wave-canvas" style="height:80px;"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 2: ROADMAP & THE FOUR CONVERSIONS
+           ==================================================================== -->
+      <section class="slide" id="slide-2">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Roadmap & Context</span>
+            </div>
+            <h2 class="slide-title">Today’s Objectives: The Four Conversions</h2>
+            <div class="slide-subtitle">Where Analog-to-Analog conversion fits in Data Communication (Forouzan Section 5.2)</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 2 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">🎯</span> Lecture 08 Core Goals</div>
+                <ul class="key-points-list">
+                  <li><strong>Why Modulation?</strong> Explain physical antenna constraints <span class="math">(&lambda;/4)</span> and frequency-division sharing.</li>
+                  <li><strong>Amplitude Modulation (AM):</strong> Master modulation index <span class="math">m</span>, spectrum <span class="math">(2<var>f</var><sub>m</sub>)</span>, and power waste <span class="math"><var>P</var><sub>t</sub> = <var>P</var><sub>c</sub>(1 + <var>m</var><sup>2</sup>/2)</span>.</li>
+                  <li><strong>Frequency Modulation (FM):</strong> Analyze VCO frequency swings, modulation index $\beta = \Delta f/f_m$, and Carson’s bandwidth.</li>
+                  <li><strong>Phase Modulation (PM):</strong> Understand the derivative rule <span class="math">d<var>m</var>/d<var>t</var></span> and why PM shifts frequency where the wave changes fastest.</li>
+                  <li><strong>Broadcast Band Planning:</strong> Calculate station allocations in AM (10 kHz / 9 kHz) and FM (200 kHz) bands.</li>
+                  <li><strong>Demodulation Circuits:</strong> Envelope detector and FM limiter/discriminator mechanics.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="content-card">
+                <div class="card-title"><span class="icon">📚</span> The Four Data Conversions (Forouzan)</div>
+                <div class="comparison-table-wrapper">
+                  <table class="comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Lecture</th>
+                        <th>Conversion Type</th>
+                        <th>Primary Technique</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Lecture 5</td>
+                        <td>Analog → Digital</td>
+                        <td>Pulse Code Modulation (PCM)</td>
+                      </tr>
+                      <tr>
+                        <td>Lecture 6</td>
+                        <td>Digital → Digital</td>
+                        <td>Line Coding (NRZ, RZ, Manchester, AMI)</td>
+                      </tr>
+                      <tr>
+                        <td>Lecture 7</td>
+                        <td>Digital → Analog</td>
+                        <td>ASK, FSK, PSK, QAM</td>
+                      </tr>
+                      <tr style="background: rgba(0, 240, 255, 0.12); font-weight:700;">
+                        <td style="color:var(--accent-cyan);">Lecture 8 (Today)</td>
+                        <td style="color:var(--accent-cyan);">Analog → Analog</td>
+                        <td style="color:var(--accent-cyan);">AM, FM, PM</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="font-size:13px; color:var(--text-muted); padding:4px 8px;">
+                  Reading Reference: Behrouz A. Forouzan, <em>Data Communications and Networking</em>, Section 5.2.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 3: WHY PUT AN ANALOG SIGNAL ON A CARRIER?
+           ==================================================================== -->
+      <section class="slide" id="slide-3">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Fundamental Concept</span>
+            </div>
+            <h2 class="slide-title">Why Put an Analog Signal on a Carrier?</h2>
+            <div class="slide-subtitle">Antenna quarter-wavelength physics, band-pass physical media, and frequency sharing</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('overview')">
+              ▶ Watch Video Demo (18s)
+            </button>
+            <span class="lecture-ref">Slide 3 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">📡</span> The Physical Antenna Problem</div>
+                <p style="font-size:15px; color:#cbd5e1;">
+                  For an electromagnetic wave to radiate efficiently into free space without massive dissipation, the transmitting antenna must be roughly one-quarter wavelength long:
+                </p>
+                <div class="formula-card">
+                  <div class="formula-header">Quarter-Wavelength Antenna Law</div>
+                  <div class="formula-math">
+  <span class="math"><var>L</var><sub>antenna</sub> &approx; <span class="math-frac"><span class="math-num">&lambda;</span><span class="math-den">4</span></span> = <span class="math-frac"><span class="math-num"><var>c</var></span><span class="math-den">4 &middot; <var>f</var></span></span></span>
+</div>
+                  <div class="formula-expl">Where <span class="math"><var>c</var> = 3 &times; 10<sup>8</sup> m/s</span> is the speed of light in vacuum, and <span class="math"><var>f</var></span> is signal frequency.</div>
+                </div>
+                <ul class="key-points-list">
+                  <li><strong>Raw Audio (1 kHz):</strong> <span class="math">&lambda; = 300 km &implies; <strong>L = 75 km</strong></span> tall antenna! Absolutely impossible to build.</li>
+                  <li><strong>RF Carrier (100 MHz):</strong> <span class="math">&lambda; = 3 m &implies; <strong>L = 75 cm</strong></span> practical whip antenna fitted on cars and phones!</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="content-card highlight-amber">
+                <div class="card-title"><span class="icon">📻</span> Sharing the Medium (Collision Prevention)</div>
+                <ul class="key-points-list">
+                  <li><strong>Baseband Overlap:</strong> Every human voice and music track occupies the identical baseband range (20 Hz to 20 kHz).</li>
+                  <li><strong>Catastrophic Collision:</strong> If multiple stations transmitted raw audio directly, all signals would occupy the exact same spectrum and garble into deafening noise.</li>
+                  <li><strong>Carrier Translation:</strong> Shifting each station’s audio onto a dedicated high-frequency carrier <span class="math">(<var>f</var><sub>c1</sub>, <var>f</var><sub>c2</sub>, <var>f</var><sub>c3</sub>)</span> allows thousands of broadcasters to share the airwaves cleanly without interference.</li>
+                  <li><strong>Band-Pass Physical Media:</strong> Coaxial cables, optical fibers, and satellite atmosphere are band-pass channels that heavily attenuate low frequencies near 0 Hz.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 4: THREE WAYS TO CARRY AN ANALOG MESSAGE
+           ==================================================================== -->
+      <section class="slide" id="slide-4">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Modulation Taxonomy</span>
+            </div>
+            <h2 class="slide-title">Three Ways to Carry an Analog Message</h2>
+            <div class="slide-subtitle">Modulating the carrier’s amplitude, frequency, or phase while holding the other two constant</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 4 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="formula-card" style="margin-bottom:8px;">
+            <div class="formula-header">General Sinusoidal Carrier Wave</div>
+            <div class="formula-math">
+  <span class="math"><var>c</var>(<var>t</var>) = <var>A</var><sub>c</sub> cos(2&pi;<var>f</var><sub>c</sub><var>t</var> + &phi;)</span>
+</div>
+            <div class="formula-expl">Three distinct parameters can be varied in proportion to the message <span class="math"><var>m</var>(<var>t</var>)</span>: Amplitude (<span class="math"><var>A</var><sub>c</sub></span>), Frequency (<span class="math"><var>f</var><sub>c</sub></span>), or Phase (<span class="math">&phi;</span>).</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; flex:1;">
+            <!-- AM Card -->
+            <div class="content-card" style="border-top: 4px solid var(--accent-amber);">
+              <div class="card-title" style="color:var(--accent-amber);">1. Amplitude Modulation (AM)</div>
+              <p style="font-size:14px; color:#cbd5e1;">The carrier’s peak amplitude follows the audio message; its frequency and phase remain strictly constant.</p>
+              <div style="font-family:monospace; font-size:13px; color:var(--accent-amber); background:rgba(0,0,0,0.3); padding:8px; border-radius:6px;">
+                <span class="math"><var>s</var>(<var>t</var>) = <var>A</var><sub>c</sub> [1 + <var>m</var>&middot;<var>m</var>(<var>t</var>)] cos(2&pi;<var>f</var><sub>c</sub><var>t</var>)</span>
+              </div>
+              <div style="font-size:12px; color:var(--text-muted);">Used in MW/SW broadcast, aviation radio.</div>
+            </div>
+
+            <!-- FM Card -->
+            <div class="content-card" style="border-top: 4px solid var(--accent-cyan);">
+              <div class="card-title" style="color:var(--accent-cyan);">2. Frequency Modulation (FM)</div>
+              <p style="font-size:14px; color:#cbd5e1;">The carrier’s frequency swings with the message; its amplitude and phase remain strictly constant.</p>
+              <div style="font-family:monospace; font-size:13px; color:var(--accent-cyan); background:rgba(0,0,0,0.3); padding:8px; border-radius:6px;">
+                <span class="math"><var>f</var>(<var>t</var>) = <var>f</var><sub>c</sub> + &Delta;<var>f</var>&middot;<var>m</var>(<var>t</var>)</span>
+              </div>
+              <div style="font-size:12px; color:var(--text-muted);">Used in commercial FM radio, TV sound, two-way radio.</div>
+            </div>
+
+            <!-- PM Card -->
+            <div class="content-card" style="border-top: 4px solid var(--accent-violet);">
+              <div class="card-title" style="color:var(--accent-violet);">3. Phase Modulation (PM)</div>
+              <p style="font-size:14px; color:#cbd5e1;">The carrier’s phase angle varies with the message; amplitude stays constant. Frequency tracks <span class="math">dm/dt</span>.</p>
+              <div style="font-family:monospace; font-size:13px; color:var(--accent-violet); background:rgba(0,0,0,0.3); padding:8px; border-radius:6px;">
+                <span class="math"><var>s</var>(<var>t</var>) = <var>A</var><sub>c</sub> cos(2&pi;<var>f</var><sub>c</sub><var>t</var> + <var>k</var><sub>p</sub>&middot;<var>m</var>(<var>t</var>))</span>
+              </div>
+              <div style="font-size:12px; color:var(--text-muted);">Foundational to digital PSK/QAM and satellite telemetry.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 5: AMPLITUDE MODULATION (AM) & THE ENVELOPE
+           ==================================================================== -->
+      <section class="slide" id="slide-5">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-am">Amplitude Modulation</span>
+            </div>
+            <h2 class="slide-title">Amplitude Modulation (AM) & The Envelope</h2>
+            <div class="slide-subtitle">Multiplying the carrier by (1 + message) so that the peak outline replicates the sound</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('am')">
+              ▶ Watch Video Demo (18s)
+            </button>
+            <span class="lecture-ref">Slide 5 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="formula-card">
+                <div class="formula-header">AM Time-Domain Equation</div>
+                <div class="formula-math">
+  <span class="math"><var>s</var>(<var>t</var>) = <var>A</var><sub>c</sub> [1 + <var>m</var> cos(2&pi;<var>f</var><sub>m</sub><var>t</var>)] &middot; cos(2&pi;<var>f</var><sub>c</sub><var>t</var>)</span>
+</div>
+                <div class="formula-expl">
+                  <strong><span class="math"><var>A</var><sub>c</sub></span>:</strong> Unmodulated carrier peak amplitude (Volts)<br>
+                  <strong><span class="math"><var>m</var></span>:</strong> Modulation index (<span class="math">0 &le; <var>m</var> &le; 1</span> for linear modulation)<br>
+                  <strong><span class="math"><var>f</var><sub>m</sub></span>:</strong> Modulating message frequency (Hz)<br>
+                  <strong><span class="math"><var>f</var><sub>c</sub></span>:</strong> Carrier frequency (Hz), where <span class="math"><var>f</var><sub>c</sub> &gg; <var>f</var><sub>m</sub></span>
+                </div>
+              </div>
+
+              <div class="content-card">
+                <div class="card-title"><span class="icon">✨</span> The Envelope Concept</div>
+                <ul class="key-points-list">
+                  <li><strong>The Envelope:</strong> The smooth curve connecting the positive and negative RF peaks.</li>
+                  <li><strong>Exact Audio Copy:</strong> Because the carrier is multiplied by <span class="math">[1 + <var>m</var>&middot;<var>m</var>(<var>t</var>)]</span>, the envelope matches the original message shape.</li>
+                  <li><strong>Simplicity:</strong> The receiver does not need complex frequency tracking; a simple diode envelope detector extracts the sound.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">Live Oscilloscope Trace</span>
+                  <div class="scope-legend">
+                    <span class="legend-item"><span class="legend-dot" style="background:#fb5607;"></span> AM Wave</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#3a86ff;"></span> Envelope (Message)</span>
+                  </div>
+                </div>
+                <div class="scope-container" style="height:280px;">
+                  <canvas id="slide-am-canvas" style="height:280px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 6: THE MODULATION INDEX m
+           ==================================================================== -->
+      <section class="slide" id="slide-6">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-am">AM Modulation Depth</span>
+            </div>
+            <h2 class="slide-title">The Modulation Index m & Overmodulation</h2>
+            <div class="slide-subtitle">Under-modulation ($m < 1$), 100% modulation ($m = 1$), and destructive overmodulation ($m > 1$)</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('am_index')">
+              ▶ Watch Video Demo (20s)
+            </button>
+            <span class="lecture-ref">Slide 6 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="formula-card">
+                <div class="formula-header">Modulation Index Formula (Forouzan)</div>
+                <div class="formula-math">
+  <span class="math"><var>m</var> = <span class="math-frac"><span class="math-num"><var>A</var><sub>max</sub> &minus; <var>A</var><sub>min</sub></span><span class="math-den"><var>A</var><sub>max</sub> + <var>A</var><sub>min</sub></span></span> = <span class="math-frac"><span class="math-num"><var>A</var><sub>m</sub></span><span class="math-den"><var>A</var><sub>c</sub></span></span></span>
+</div>
+                <div class="formula-expl">
+                  <span class="math"><var>A</var><sub>max</sub></span> = maximum envelope peak voltage; <span class="math"><var>A</var><sub>min</sub></span> = minimum envelope trough voltage.
+                </div>
+              </div>
+
+              <!-- Interactive Controls for m -->
+              <div class="content-card">
+                <div class="card-title"><span class="icon">🎛</span> Adjust Modulation Index</div>
+                <div class="control-item">
+                  <div class="control-label-row">
+                    <span>Modulation Index (m)</span>
+                    <span class="control-value" id="slide-m-val">0.65</span>
+                  </div>
+                  <input type="range" id="slide-m-slider" min="0" max="1.5" step="0.05" value="0.65">
+                </div>
+                <div class="modulation-alert normal" id="slide-m-alert">
+                  ✔ Normal AM (m = 0.65): Envelope cleanly mirrors the baseband audio wave.
+                </div>
+              </div>
+
+              <div class="content-card">
+                <div class="card-title"><span class="icon">⚠️</span> The Three Modulation States</div>
+                <ul class="key-points-list">
+                  <li><strong><span class="math"><var>m</var> &lt; 1</span> (Under-modulation):</strong> Envelope never touches zero. Safe and clear, but under-utilizes transmitter power.</li>
+                  <li><strong><span class="math"><var>m</var> = 1</span> (100% Modulation):</strong> Envelope touches zero at troughs. Maximum undistorted efficiency.</li>
+                  <li><strong><span class="math"><var>m</var> &gt; 1</span> (Overmodulation):</strong> Envelope crosses zero; carrier inverts phase by 180°. Envelope detector clips the inverted peaks, causing harsh acoustic distortion!</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">Real-Time Waveform & Envelope</span>
+                </div>
+                <div class="scope-container" style="height:320px;">
+                  <canvas id="slide-amindex-canvas" style="height:320px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 7: AM SPECTRUM AND BANDWIDTH
+           ==================================================================== -->
+      <section class="slide" id="slide-7">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-am">Frequency Domain</span>
+            </div>
+            <h2 class="slide-title">AM Spectrum: Carrier & Mirror Sidebands</h2>
+            <div class="slide-subtitle">Frequency translation shifts baseband up to fc, creating Upper and Lower Sidebands</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('am_spectrum')">
+              ▶ Watch Video Demo (18s)
+            </button>
+            <span class="lecture-ref">Slide 7 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="formula-card">
+                <div class="formula-header">AM Bandwidth Formula</div>
+                <div class="formula-math">
+  <span class="math"><var>B</var><sub>AM</sub> = (<var>f</var><sub>c</sub> + <var>f</var><sub>m</sub>) &minus; (<var>f</var><sub>c</sub> &minus; <var>f</var><sub>m</sub>) = 2<var>f</var><sub>m</sub> = 2<var>B</var></span>
+</div>
+                <div class="formula-expl">An AM transmission always requires exactly twice the bandwidth of the original baseband audio message.</div>
+              </div>
+
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">📊</span> Spectral Structure of AM</div>
+                <ul class="key-points-list">
+                  <li><strong>Carrier (<span class="math"><var>f</var><sub>c</sub></span>):</strong> High-power discrete spike. Carries no audio information on its own.</li>
+                  <li><strong>Lower Sideband (LSB):</strong> Spans from <span class="math"><var>f</var><sub>c</sub> &minus; <var>B</var></span> up to <span class="math"><var>f</var><sub>c</sub></span>. Contains the inverted audio spectrum.</li>
+                  <li><strong>Upper Sideband (USB):</strong> Spans from <span class="math"><var>f</var><sub>c</sub></span> up to <span class="math"><var>f</var><sub>c</sub> + <var>B</var></span>. Contains the non-inverted audio spectrum.</li>
+                  <li><strong>Redundancy:</strong> USB and LSB are identical mirror images. Transmitting both is redundant.</li>
+                  <li><strong>Single-Sideband (SSB):</strong> Filters out the carrier and one sideband, cutting required bandwidth in half <span class="math">(<var>B</var><sub>SSB</sub> = <var>B</var>)</span> and saving massive transmitter power.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">AM Live Frequency Spectrum</span>
+                  <div class="scope-legend">
+                    <span class="legend-item"><span class="legend-dot" style="background:#ffbe0b;"></span> Carrier (<span class="math"><var>f</var><sub>c</sub></span>)</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#00f0ff;"></span> Sidebands (LSB/USB)</span>
+                  </div>
+                </div>
+                <div class="scope-container" style="height:320px;">
+                  <canvas id="slide-amspec-canvas" style="height:320px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 8: WORKED EXAMPLES: AM CALCULATIONS & BAND PLANNING
+           ==================================================================== -->
+      <section class="slide" id="slide-8">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-example">Worked Calculations</span>
+            </div>
+            <h2 class="slide-title">Worked Examples: AM Index, Bandwidth & Band Planning</h2>
+            <div class="slide-subtitle">Step-by-step solutions for modulation index, signal bandwidth, and channel allocation</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 8 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <!-- Example 1 -->
+              <div class="worked-example-box">
+                <div class="example-title">
+                  <span>Example 1: AM Modulation Index</span>
+                  <span class="step-label">Forouzan Ex. 5.7</span>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Given:</div>
+                  <div><span class="math"><var>A</var><sub>max</sub> = 10 V, <var>A</var><sub>min</sub> = 2 V</span></div>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Calculation:</div>
+                  <div class="step-calc"><span class="math"><var>m</var> = <span class="math-frac"><span class="math-num">10 &minus; 2</span><span class="math-den">10 + 2</span></span> = <span class="math-frac"><span class="math-num">8</span><span class="math-den">12</span></span> &approx; 0.67 (67%)</span></div>
+                </div>
+                <div class="step-result">
+                  <span>Result:</span>
+                  <strong>m = 0.67 (67% Modulation) — Clean, undistorted</strong>
+                </div>
+              </div>
+
+              <!-- Example 2 -->
+              <div class="worked-example-box">
+                <div class="example-title">
+                  <span>Example 2: AM Bandwidth Allocation</span>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Given:</div>
+                  <div>Audio signal bandwidth <span class="math"><var>B</var> = 5 kHz</span> modulated onto <span class="math"><var>f</var><sub>c</sub> = 1,000 kHz</span>.</div>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Calculation:</div>
+                  <div class="step-calc"><span class="math"><var>B</var><sub>AM</sub> = 2<var>B</var> = 2 &times; 5 kHz = 10 kHz</span></div>
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Occupies range: <span class="math">1,000 &plusmn; 5 kHz &implies; 995 kHz to 1,005 kHz</span>.</div>
+                </div>
+                <div class="step-result">
+                  <span>Channel Width:</span>
+                  <strong>10 kHz per station</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <!-- Example 3: Band Planning -->
+              <div class="worked-example-box" style="height:100%; justify-content:space-between;">
+                <div>
+                  <div class="example-title">
+                    <span>Example 3: Planning the AM Broadcast Band</span>
+                  </div>
+                  <p style="font-size:13px; color:#cbd5e1; margin:8px 0;">
+                    Medium Wave (MW) AM radio band spans <strong>530 kHz to 1,700 kHz</strong> (Total span = <span class="math">1,170 kHz</span>).
+                  </p>
+                  <div class="example-step">
+                    <div class="step-label">FCC Standard (10 kHz spacing):</div>
+                    <div class="step-calc"><span class="math"><var>N</var><sub>channels</sub> = <span class="math-frac"><span class="math-num">1,700 &minus; 530</span><span class="math-den">10</span></span> = <span class="math-frac"><span class="math-num">1,170</span><span class="math-den">10</span></span> = <strong>117 channels</strong></span></div>
+                  </div>
+                  <div class="example-step" style="margin-top:8px;">
+                    <div class="step-label">Asia & Europe (9 kHz spacing, 531 to 1602 kHz):</div>
+                    <div class="step-calc"><span class="math"><var>N</var><sub>channels</sub> = <span class="math-frac"><span class="math-num">1,602 &minus; 531</span><span class="math-den">9</span></span> + 1 = <strong>119 channels</strong></span></div>
+                  </div>
+                </div>
+
+                <div class="scope-container" style="height:130px; margin-top:10px;">
+                  <canvas id="slide-amband-canvas" style="height:130px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 9: AM POWER AND POWER EFFICIENCY
+           ==================================================================== -->
+      <section class="slide" id="slide-9">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-am">Power Distribution</span>
+            </div>
+            <h2 class="slide-title">AM Power: Why Broadcast AM Wastes Transmitter Watts</h2>
+            <div class="slide-subtitle">Carrier carries zero information; sidebands hold all intelligence but receive little power</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 9 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="formula-card">
+                <div class="formula-header">AM Total Power Formula</div>
+                <div class="formula-math">
+  <span class="math"><var>P</var><sub>t</sub> = <var>P</var><sub>c</sub> (1 + <span class="math-frac"><span class="math-num"><var>m</var><sup>2</sup></span><span class="math-den">2</span></span>) = <var>P</var><sub>c</sub> + <var>P</var><sub>LSB</sub> + <var>P</var><sub>USB</sub></span>
+</div>
+                <div class="formula-expl">
+                  <span class="math"><var>P</var><sub>c</sub></span> = Carrier power (unmodulated)<br>
+                  <span class="math"><var>P</var><sub>LSB</sub> = <var>P</var><sub>USB</sub> = <var>P</var><sub>c</sub> &middot; <span class="math-frac"><span class="math-num"><var>m</var><sup>2</sup></span><span class="math-den">4</span></span></span> (Total sideband power <span class="math"><var>P</var><sub>sb</sub> = <var>P</var><sub>c</sub> &middot; <span class="math-frac"><span class="math-num"><var>m</var><sup>2</sup></span><span class="math-den">2</span></span></span>)
+                </div>
+              </div>
+
+              <div class="content-card highlight-amber">
+                <div class="card-title"><span class="icon">💡</span> AM Transmitter Power Distribution</div>
+                <ul class="key-points-list">
+                  <li><strong>Carrier Waste:</strong> The carrier accounts for at least 66.7% (two-thirds) of total power even at 100% modulation <span class="math">(<var>m</var> = 1)</span>.</li>
+                  <li><strong>Sideband Starvation:</strong> The audio information is stored exclusively in the sidebands, which get only one-third of the power!</li>
+                  <li><strong>Why Not Suppress Carrier?</strong> Commercial broadcast receivers must remain cheap ($5 pocket radios). A full carrier allows simple diode envelope detection without a local oscillator.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <!-- Worked Example 3 in Power -->
+              <div class="worked-example-box" style="height:100%;">
+                <div class="example-title">
+                  <span>Example 3: Transmitter Power Breakdown</span>
+                  <span class="step-label">Textbook Example</span>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Given:</div>
+                  <div>Carrier power <span class="math"><var>P</var><sub>c</sub> = 100 W, <var>m</var> = 0.8</span>.</div>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Total Power Calculation:</div>
+                  <div class="step-calc"><span class="math"><var>P</var><sub>t</sub> = 100 &times; (1 + <span class="math-frac"><span class="math-num">0.8<sup>2</sup></span><span class="math-den">2</span></span>) = 100 &times; 1.32 = <strong>132 W</strong></span></div>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Useful Sideband Power:</div>
+                  <div class="step-calc"><span class="math"><var>P</var><sub>sb</sub> = 132 &minus; 100 = 32 W &implies; Efficiency = <span class="math-frac"><span class="math-num">32</span><span class="math-den">132</span></span> &approx; <strong>24.2%</strong></span></div>
+                </div>
+                <div class="step-result" style="margin-top:auto;">
+                  <span>Transmitter Power Efficiency:</span>
+                  <strong>Only 24.2% of RF energy carries sound!</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 10: CONCEPT CHECKPOINT 1
+           ==================================================================== -->
+      <section class="slide" id="slide-10">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-quiz">Concept Check 1</span>
+            </div>
+            <h2 class="slide-title">Checkpoint 1: Amplitude Modulation Mastery</h2>
+            <div class="slide-subtitle">Instant evaluation of AM modulation index, spectral bandwidth, and overmodulation</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 10 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body" style="overflow-y:auto;">
+          <div id="checkpoint-1-container"></div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 11: FREQUENCY MODULATION (FM) & THE VCO
+           ==================================================================== -->
+      <section class="slide" id="slide-11">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-fm">Frequency Modulation</span>
+            </div>
+            <h2 class="slide-title">Frequency Modulation (FM) & The VCO</h2>
+            <div class="slide-subtitle">Carrier frequency swings with the message amplitude while amplitude remains 100% constant</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('fm')">
+              ▶ Watch Video Demo (18s)
+            </button>
+            <span class="lecture-ref">Slide 11 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="formula-card">
+                <div class="formula-header">Instantaneous Frequency Equation</div>
+                <div class="formula-math">
+  <span class="math"><var>f</var>(<var>t</var>) = <var>f</var><sub>c</sub> + &Delta;<var>f</var> &middot; <var>m</var>(<var>t</var>)</span>
+</div>
+                <div class="formula-expl">
+                  <strong><span class="math"><var>f</var><sub>c</sub></span>:</strong> Unmodulated center carrier frequency<br>
+                  <strong><span class="math">\Delta f</span>:</strong> Peak frequency deviation (maximum swing from <span class="math"><var>f</var><sub>c</sub></span> in Hz)<br>
+                  <strong><span class="math">\beta</span>:</strong> FM modulation index: <span class="math"><strong>&beta; = <span class="math-frac"><span class="math-num">&Delta;<var>f</var></span><span class="math-den"><var>f</var><sub>m</sub></span></span></strong></span>
+                </div>
+              </div>
+
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">⚡</span> The Voltage-Controlled Oscillator (VCO)</div>
+                <ul class="key-points-list">
+                  <li><strong>Hardware Implementation:</strong> FM is created using a VCO, where input audio voltage directly alters the capacitance of a varactor diode, tuning the oscillator frequency.</li>
+                  <li><strong>Positive Peaks:</strong> Carrier cycles compress tightly (frequency increases up to <span class="math"><var>f</var><sub>c</sub> + &Delta;<var>f</var></span>).</li>
+                  <li><strong>Negative Troughs:</strong> Carrier cycles stretch wide (frequency decreases down to <span class="math"><var>f</var><sub>c</sub> &minus; &Delta;<var>f</var></span>).</li>
+                  <li><strong>Constant Amplitude:</strong> The peak-to-peak voltage NEVER changes! This is the secret to FM’s immunity to noise.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">Live FM Oscilloscope Trace</span>
+                  <div class="scope-legend">
+                    <span class="legend-item"><span class="legend-dot" style="background:#00f0ff;"></span> FM Wave</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#3a86ff;"></span> Message (Dashed)</span>
+                  </div>
+                </div>
+                <div class="scope-container" style="height:320px;">
+                  <canvas id="slide-fm-canvas" style="height:320px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 12: FM SPECTRUM & CARSON'S RULE
+           ==================================================================== -->
+      <section class="slide" id="slide-12">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-fm">FM Bandwidth</span>
+            </div>
+            <h2 class="slide-title">FM Spectrum & Carson’s Rule</h2>
+            <div class="slide-subtitle">Infinite theoretical Bessel sidebands, but 98% of power is strictly bounded by Carson’s Rule</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('carson')">
+              ▶ Watch Video Demo (20s)
+            </button>
+            <span class="lecture-ref">Slide 12 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="formula-card">
+                <div class="formula-header">Carson’s Bandwidth Rule</div>
+                <div class="formula-math">
+  <span class="math"><var>B</var><sub>FM</sub> &approx; 2(&Delta;<var>f</var> + <var>f</var><sub>m</sub>) = 2(1 + &beta;)<var>f</var><sub>m</sub></span>
+</div>
+                <div class="formula-expl">
+                  Contains approximately <strong>98%</strong> of total transmitted signal power. Forouzan standard benchmark for broadcast FM uses <span class="math">&beta; = 4</span>.
+                </div>
+              </div>
+
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">📐</span> Bessel Functions <span class="math"><var>J</var><sub>n</sub>(&beta;)</span></div>
+                <ul class="key-points-list">
+                  <li><strong>Infinite Sidebands:</strong> FM creates spectral lines at <span class="math"><var>f</var><sub>c</sub> &plusmn; <var>f</var><sub>m</sub>, <var>f</var><sub>c</sub> &plusmn; 2<var>f</var><sub>m</sub>, <var>f</var><sub>c</sub> &plusmn; 3<var>f</var><sub>m</sub>, &hellip;</span></li>
+                  <li><strong>Amplitudes:</strong> The height of the <span class="math">n</span>-th sideband is given by <span class="math">|<var>J</var><sub>n</sub>(&beta;)|</span>.</li>
+                  <li><strong>Bessel Boundary:</strong> Sidebands beyond <span class="math"><var>n</var> = &beta; + 1</span> drop below 1% of carrier amplitude and can be safely filtered out without causing audible distortion.</li>
+                  <li><strong>Trade-Off:</strong> Larger <span class="math">&beta;</span> &implies; superior noise immunity, but consumes wider transmission bandwidth.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">Live Bessel Spectrum & Shaded Carson Bandwidth</span>
+                </div>
+                <div class="scope-container" style="height:320px;">
+                  <canvas id="slide-fmspec-canvas" style="height:320px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 13: WORKED EXAMPLES: FM CALCULATIONS & BROADCAST BAND
+           ==================================================================== -->
+      <section class="slide" id="slide-13">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-example">Worked Calculations</span>
+            </div>
+            <h2 class="slide-title">Worked Examples: FM Index, Carson Bandwidth & FM Band</h2>
+            <div class="slide-subtitle">Step-by-step solutions for β, Carson bandwidth, and 200 kHz channel planning</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 13 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <!-- Example 4 & 5 -->
+              <div class="worked-example-box">
+                <div class="example-title">
+                  <span>Example 4: FM Modulation Index β</span>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Given:</div>
+                  <div><span class="math">&Delta;<var>f</var> = 50 kHz, <var>f</var><sub>m</sub> = 10 kHz</span></div>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Calculation:</div>
+                  <div class="step-calc"><span class="math">&beta; = <span class="math-frac"><span class="math-num">&Delta;<var>f</var></span><span class="math-den"><var>f</var><sub>m</sub></span></span> = <span class="math-frac"><span class="math-num">50 kHz</span><span class="math-den">10 kHz</span></span> = <strong>5.0</strong></span></div>
+                </div>
+              </div>
+
+              <div class="worked-example-box">
+                <div class="example-title">
+                  <span>Example 5: Carson’s Bandwidth</span>
+                </div>
+                <div class="example-step">
+                  <div class="step-label">Calculation:</div>
+                  <div class="step-calc"><span class="math"><var>B</var><sub>FM</sub> = 2(&Delta;<var>f</var> + <var>f</var><sub>m</sub>) = 2(50 + 10) = 2 &times; 60 = <strong>120 kHz</strong></span></div>
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Equivalent form: <span class="math">2(1 + &beta;)<var>f</var><sub>m</sub> = 2(1 + 5) &times; 10 = 120 kHz</span>.</div>
+                </div>
+                <div class="step-result">
+                  <span>Final Carson Bandwidth:</span>
+                  <strong>120 kHz</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <!-- Example 6: FM Commercial Band -->
+              <div class="worked-example-box" style="height:100%; justify-content:space-between;">
+                <div>
+                  <div class="example-title">
+                    <span>Example 6: Commercial FM Broadcast Allocation</span>
+                    <span class="step-label">Forouzan Benchmark</span>
+                  </div>
+                  <div class="example-step">
+                    <div class="step-label">Given:</div>
+                    <div>High-fidelity audio up to $f_m = 15\text{ kHz}$, <span class="math">&beta; = 4</span> (Forouzan standard assumption).</div>
+                  </div>
+                  <div class="example-step">
+                    <div class="step-label">Carson Bandwidth:</div>
+                    <div class="step-calc"><span class="math"><var>B</var><sub>FM</sub> = 2(1 + 4) &times; 15 kHz = 10 &times; 15 = <strong>150 kHz</strong></span></div>
+                  </div>
+                  <div class="example-step">
+                    <div class="step-label">Channel Allocation:</div>
+                    <div class="step-calc">\text{Allocated Channel Width} = \mathbf{200\text{ kHz}} \implies \text{Guard Band} = 2 \times 25\text{ kHz}</div>
+                  </div>
+                  <div class="example-step">
+                    <div class="step-label">Band Capacity (88 to 108 MHz):</div>
+                    <div class="step-calc"><span class="math"><var>N</var><sub>channels</sub> = <span class="math-frac"><span class="math-num">108 &minus; 88 MHz</span><span class="math-den">0.2 MHz</span></span> = <span class="math-frac"><span class="math-num">20</span><span class="math-den">0.2</span></span> = <strong>100 channels</strong></span></div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">To prevent adjacent-channel splatter, only alternate channels are used in one area (<span class="math">\approx 50</span> stations).</div>
+                  </div>
+                </div>
+
+                <div class="scope-container" style="height:120px; margin-top:10px;">
+                  <canvas id="slide-fmband-canvas" style="height:120px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 14: WHY FM SOUNDS CLEANER THAN AM
+           ==================================================================== -->
+      <section class="slide" id="slide-14">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-fm">Noise Immunity</span>
+            </div>
+            <h2 class="slide-title">Why FM Sounds Cleaner than AM: Amplitude Limiting</h2>
+            <div class="slide-subtitle">Atmospheric and thermal noise attack amplitude; FM receivers clip noise away with a limiter</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 14 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">⚡</span> The Nature of Noise</div>
+                <ul class="key-points-list">
+                  <li><strong>Natural Noise is Additive Amplitude Noise:</strong> Lightning strikes, power line hum, ignition sparks, and thermal Johnson noise all corrupt signal amplitude.</li>
+                  <li><strong>Why AM Suffers:</strong> In AM, the amplitude envelope IS the audio. Any noise spike directly changes the envelope and passes into your loudspeaker as crackling static!</li>
+                  <li><strong>Why FM is Immune:</strong> In FM, the audio is encoded strictly in the <em>zero-crossing rate</em> (time distance between zero axis crossings). Amplitude variations carry zero information.</li>
+                  <li><strong>The Amplitude Limiter:</strong> An FM receiver uses a saturating amplifier to hard-clip the incoming signal to a constant flat height, completely stripping away noise spikes before demodulation!</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">Amplitude Limiter in Action</span>
+                  <div class="scope-legend">
+                    <span class="legend-item"><span class="legend-dot" style="background:#ef476f;"></span> Noisy Signal</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#00f0ff;"></span> Clipped (Clean Zero-Crossings)</span>
+                  </div>
+                </div>
+                <div class="scope-container" style="height:320px;">
+                  <canvas id="slide-fmnoise-canvas" style="height:320px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 15: PHASE MODULATION (PM) & THE DERIVATIVE RULE
+           ==================================================================== -->
+      <section class="slide" id="slide-15">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-pm">Phase Modulation</span>
+            </div>
+            <h2 class="slide-title">Phase Modulation (PM) & The Derivative Rule</h2>
+            <div class="slide-subtitle">Carrier phase tracks message value; frequency shifts in proportion to the message slope</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('pm')">
+              ▶ Watch Video Demo (20s)
+            </button>
+            <span class="lecture-ref">Slide 15 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="formula-card">
+                <div class="formula-header">PM Signal Equation</div>
+                <div class="formula-math">
+  <span class="math"><var>s</var>(<var>t</var>) = <var>A</var><sub>c</sub> cos(2&pi;<var>f</var><sub>c</sub><var>t</var> + <var>k</var><sub>p</sub>&middot;<var>m</var>(<var>t</var>))</span>
+</div>
+                <div class="formula-expl">
+                  <span class="math">k_p</span> = phase deviation constant (radians per Volt).
+                </div>
+              </div>
+
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">📐</span> The Derivative Relationship</div>
+                <p style="font-size:14px; color:#cbd5e1;">
+                  Because instantaneous frequency is the time derivative of total phase:
+                </p>
+                <div style="background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px; margin:4px 0; text-align:center;">
+  <span class="math"><var>f</var><sub>i</sub>(<var>t</var>) = <span class="math-frac"><span class="math-num">1</span><span class="math-den">2&pi;</span></span> <span class="math-frac"><span class="math-num">d&theta;</span><span class="math-den">d<var>t</var></span></span> = <var>f</var><sub>c</sub> + <span class="math-frac"><span class="math-num"><var>k</var><sub>p</sub></span><span class="math-den">2&pi;</span></span> &middot; <span class="math-frac"><span class="math-num">d<var>m</var>(<var>t</var>)</span><span class="math-den">d<var>t</var></span></span></span>
+</div>
+                <ul class="key-points-list">
+                  <li><strong>PM is FM of the Derivative:</strong> A PM signal changes frequency where the message changes FASTEST, not where it is largest.</li>
+                  <li><strong>At Peaks of Sine Wave:</strong> Slope <span class="math"><span class="math-frac"><span class="math-num">d<var>m</var></span><span class="math-den">d<var>t</var></span></span> = 0</span> &implies; instantaneous frequency equals <span class="math"><var>f</var><sub>c</sub></span>.</li>
+                  <li><strong>At Zero-Crossings:</strong> Slope <span class="math"><span class="math-frac"><span class="math-num">d<var>m</var></span><span class="math-den">d<var>t</var></span></span></span> is maximum &implies; frequency swings to its extreme deviation!</li>
+                  <li><strong>Bandwidth:</strong> Same Carson formula <span class="math"><var>B</var><sub>PM</sub> &approx; 2(1 + &beta;)<var>B</var></span>, but uses smaller <span class="math">\beta</span> (<span class="math">1</span> to <span class="math">3</span>).</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">Message vs FM vs PM</span>
+                </div>
+                <div class="scope-container" style="height:100px; margin-bottom:6px;">
+                  <div class="scope-cap"><span>1. Message Wave m(t)</span></div>
+                  <canvas id="slide-pm-msg-cv" style="height:100px;"></canvas>
+                </div>
+                <div class="scope-container" style="height:100px; margin-bottom:6px;">
+                  <div class="scope-cap"><span>2. FM Wave (freq follows value)</span></div>
+                  <canvas id="slide-pm-fm-cv" style="height:100px;"></canvas>
+                </div>
+                <div class="scope-container" style="height:100px;">
+                  <div class="scope-cap"><span>3. PM Wave (freq follows slope dm/dt)</span></div>
+                  <canvas id="slide-pm-pm-cv" style="height:100px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 16: COMPREHENSIVE AM, FM, AND PM COMPARISON
+           ==================================================================== -->
+      <section class="slide" id="slide-16">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Comparison Matrix</span>
+            </div>
+            <h2 class="slide-title">AM, FM, and PM: Comprehensive Comparison</h2>
+            <div class="slide-subtitle">Side-by-side projector matrix comparing parameters, bandwidth, noise, power, and circuits</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 16 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="comparison-table-wrapper" style="height:100%; overflow:auto;">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th class="col-am">Amplitude Modulation (AM)</th>
+                  <th class="col-fm">Frequency Modulation (FM)</th>
+                  <th class="col-pm">Phase Modulation (PM)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Parameter Varied</strong></td>
+                  <td class="col-am">Carrier Amplitude <span class="math"><var>A</var><sub>c</sub></span></td>
+                  <td class="col-fm">Carrier Frequency <span class="math"><var>f</var><sub>c</sub></span></td>
+                  <td class="col-pm">Carrier Phase <span class="math">&phi;</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Bandwidth Formula</strong></td>
+                  <td><span class="math"><var>B</var> = 2<var>B</var></span> (10 kHz)</td>
+                  <td><span class="math">2(1 + &beta;)<var>B</var></span> (&beta; &approx; 4&ndash;5, 150&ndash;200 kHz)</td>
+                  <td><span class="math">2(1 + &beta;)<var>B</var></span> (&beta; &approx; 1&ndash;3)</td>
+                </tr>
+                <tr>
+                  <td><strong>Noise Immunity</strong></td>
+                  <td><span class="status-pill poor">Poor</span> (Amplitude noise corrupts envelope)</td>
+                  <td><span class="status-pill good">Excellent</span> (Limiter strips amplitude noise)</td>
+                  <td><span class="status-pill good">Excellent</span> (Constant amplitude envelope)</td>
+                </tr>
+                <tr>
+                  <td><strong>Power Efficiency</strong></td>
+                  <td><span class="status-pill poor">Low</span> (<span class="math"><var>P</var><sub>c</sub></span> wastes 67% to 80% power)</td>
+                  <td><span class="status-pill good">High</span> (Constant envelope, all power useful)</td>
+                  <td><span class="status-pill good">High</span> (Constant envelope, all power useful)</td>
+                </tr>
+                <tr>
+                  <td><strong>Receiver Complexity</strong></td>
+                  <td><span class="status-pill good">Very Simple</span> (Diode + RC filter)</td>
+                  <td><span class="status-pill fair">Moderate</span> (Limiter + Discriminator / PLL)</td>
+                  <td><span class="status-pill fair">Complex</span> (Coherent Phase Detector)</td>
+                </tr>
+                <tr>
+                  <td><strong>Primary Applications</strong></td>
+                  <td>MW/SW broadcast, long-range aircraft radio</td>
+                  <td>Commercial FM radio, TV audio, two-way radio</td>
+                  <td>Foundation of digital PSK/QAM, satellite telemetry</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 17: INTERACTIVE MODULATION LAB: AM, FM & PM LIVE
+           ==================================================================== -->
+      <section class="slide" id="slide-17">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Interactive Bench</span>
+            </div>
+            <h2 class="slide-title">Interactive Modulation Lab: AM, FM & PM Live</h2>
+            <div class="slide-subtitle">Adjust message waveforms and modulation depths in real time to observe waveform dynamics</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 17 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left" style="flex:0.8;">
+              <div class="content-card">
+                <div class="card-title"><span class="icon">🎛</span> Live Waveform Controls</div>
+                <div class="control-item">
+                  <label class="control-label-row">Message Waveform Shape</label>
+                  <select id="slide-live-shape" class="lab-select">
+                    <option value="sin">Sine Wave</option>
+                    <option value="tri">Triangular Wave</option>
+                    <option value="sq">Smoothed Square Wave</option>
+                  </select>
+                </div>
+                <div class="control-item">
+                  <div class="control-label-row">
+                    <span>Modulation Strength (k)</span>
+                  </div>
+                  <input type="range" id="slide-live-k" min="0.1" max="1.0" step="0.05" value="0.6">
+                </div>
+                <p style="font-size:13px; color:var(--text-muted); line-height:1.45;">
+                  Notice how square-wave transitions cause instantaneous frequency spikes in PM, because the derivative <span class="math">d<var>m</var>/d<var>t</var></span> is sharply concentrated at the edges!
+                </p>
+              </div>
+            </div>
+
+            <div class="split-right" style="flex:1.2;">
+              <div class="interactive-widget-box">
+                <div class="scope-container" style="height:90px; margin-bottom:4px;">
+                  <div class="scope-cap"><span>Message Wave m(t)</span></div>
+                  <canvas id="slide-live-msg-cv" style="height:90px;"></canvas>
+                </div>
+                <div class="scope-container" style="height:90px; margin-bottom:4px;">
+                  <div class="scope-cap"><span>FM Wave (frequency follows value)</span></div>
+                  <canvas id="slide-live-fm-cv" style="height:90px;"></canvas>
+                </div>
+                <div class="scope-container" style="height:90px;">
+                  <div class="scope-cap"><span>PM Wave (frequency follows derivative dm/dt)</span></div>
+                  <canvas id="slide-live-pm-cv" style="height:90px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 18: CONCEPT CHECKPOINT 2
+           ==================================================================== -->
+      <section class="slide" id="slide-18">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-quiz">Concept Check 2</span>
+            </div>
+            <h2 class="slide-title">Checkpoint 2: FM and PM Mastery</h2>
+            <div class="slide-subtitle">Verify your calculations on Carson’s rule, the amplitude limiter, and the derivative rule</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 18 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body" style="overflow-y:auto;">
+          <div id="checkpoint-2-container"></div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 19: DEMODULATION: RECOVERING THE MESSAGE
+           ==================================================================== -->
+      <section class="slide" id="slide-19">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Receiver Circuits</span>
+            </div>
+            <h2 class="slide-title">Demodulation: Recovering the Original Message</h2>
+            <div class="slide-subtitle">AM Envelope Detector (Diode + RC Filter) and FM Receiver (Limiter + Discriminator)</div>
+          </div>
+          <div class="slide-meta-right">
+            <button type="button" class="video-launch-pill" onclick="VideoDemos.openDemo('demod')">
+              ▶ Watch Video Demo (22s)
+            </button>
+            <span class="lecture-ref">Slide 19 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <!-- AM Demodulation -->
+            <div class="split-left">
+              <div class="content-card highlight-amber" style="height:100%;">
+                <div class="card-title" style="color:var(--accent-amber);">1. AM: Diode Envelope Detector</div>
+                <div class="flow-diagram-container">
+                  <div class="flow-step-node">
+                    <div class="icon">📶</div>
+                    <div class="name">AM Signal</div>
+                    <div class="detail">Full RF Carrier</div>
+                  </div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-step-node diode-active">
+                    <div class="icon">⚡</div>
+                    <div class="name">Diode</div>
+                    <div class="detail">Rectifies (+ half)</div>
+                  </div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-step-node">
+                    <div class="icon">🔌</div>
+                    <div class="name">RC Filter</div>
+                    <div class="detail">Smooths RF</div>
+                  </div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-step-node">
+                    <div class="icon">🔊</div>
+                    <div class="name">Audio Out</div>
+                    <div class="detail">Recovered m(t)</div>
+                  </div>
+                </div>
+                <ul class="key-points-list" style="margin-top:10px;">
+                  <li><strong>Diode:</strong> Conducts only during positive half-cycles, discarding negative lobes.</li>
+                  <li><strong>RC Low-Pass Filter:</strong> Capacitor charges to RF peak, and discharges slowly with time constant <span class="math">&tau; = <var>RC</var></span>.</li>
+                  <li><strong>Time Constant Rule:</strong> Must satisfy <span class="math"><span class="math-frac"><span class="math-num">1</span><span class="math-den"><var>f</var><sub>c</sub></span></span> &ll; <var>RC</var> &ll; <span class="math-frac"><span class="math-num">1</span><span class="math-den"><var>f</var><sub>m</sub></span></span></span>.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- FM Demodulation -->
+            <div class="split-right">
+              <div class="content-card highlight-cyan" style="height:100%;">
+                <div class="card-title" style="color:var(--accent-cyan);">2. FM: Limiter & Frequency Discriminator</div>
+                <div class="flow-diagram-container">
+                  <div class="flow-step-node">
+                    <div class="icon">📶</div>
+                    <div class="name">FM Signal</div>
+                    <div class="detail">Noisy RF Input</div>
+                  </div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-step-node">
+                    <div class="icon">✂️</div>
+                    <div class="name">Limiter</div>
+                    <div class="detail">Strips Noise</div>
+                  </div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-step-node">
+                    <div class="icon">🔄</div>
+                    <div class="name">Discriminator</div>
+                    <div class="detail">Freq → Voltage</div>
+                  </div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-step-node">
+                    <div class="icon">🔊</div>
+                    <div class="name">Audio Out</div>
+                    <div class="detail">Clean Speech</div>
+                  </div>
+                </div>
+                <ul class="key-points-list" style="margin-top:10px;">
+                  <li><strong>Limiter:</strong> Slices waveform flat at <span class="math">&plusmn;<var>V</var><sub>limit</sub></span>, discarding atmospheric noise spikes.</li>
+                  <li><strong>Discriminator / PLL:</strong> Converts zero-crossing density into an output voltage proportional to instantaneous frequency deviation.</li>
+                  <li><strong>Superheterodyne:</strong> Real radios first shift incoming RF to an Intermediate Frequency (IF = 455 kHz in AM; 10.7 MHz in FM).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 20: INTERACTIVE DEMODULATOR SIMULATOR
+           ==================================================================== -->
+      <section class="slide" id="slide-20">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Interactive Demodulator</span>
+            </div>
+            <h2 class="slide-title">Interactive Demodulator: Envelope Detector Live</h2>
+            <div class="slide-subtitle">Simulating diode rectification and RC low-pass capacitor charge/discharge in real time</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 20 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left" style="flex:0.8;">
+              <div class="content-card">
+                <div class="card-title"><span class="icon">🎛</span> RC Time Constant (<span class="math">&tau; = <var>RC</var></span>)</div>
+                <div class="control-item">
+                  <div class="control-label-row">
+                    <span>RC Time Constant <span class="math">(&tau;)</span></span>
+                    <span class="control-value" id="slide-tau-val">25.0 ms</span>
+                  </div>
+                  <input type="range" id="slide-tau-slider" min="0.005" max="0.08" step="0.005" value="0.025">
+                </div>
+                <ul class="key-points-list" style="font-size:13px; margin-top:8px;">
+                  <li><strong>Too Small <span class="math">\tau</span>:</strong> Capacitor discharges too quickly between carrier peaks; RF carrier ripple leaks into audio output.</li>
+                  <li><strong>Optimal <span class="math">\tau</span>:</strong> Capacitor discharges at the exact rate of audio descent, tracing out the pristine original message wave (green trace).</li>
+                  <li><strong>Too Large <span class="math">\tau</span>:</strong> Capacitor cannot discharge fast enough, clipping the envelope ("diagonal clipping distortion").</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right" style="flex:1.2;">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">Diode Rectified Peaks (Pink) vs Recovered Audio (Green)</span>
+                </div>
+                <div class="scope-container" style="height:320px;">
+                  <canvas id="slide-demod-canvas" style="height:320px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 21: BRIDGE TO FREQUENCY-DIVISION MULTIPLEXING (FDM)
+           ==================================================================== -->
+      <section class="slide" id="slide-21">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-theory">Bridge to FDM</span>
+            </div>
+            <h2 class="slide-title">Many Stations, One Medium: The Bridge to FDM</h2>
+            <div class="slide-subtitle">How modulation enables Frequency-Division Multiplexing (Preview of Lecture 09)</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 21 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body">
+          <div class="split-layout">
+            <div class="split-left">
+              <div class="content-card highlight-cyan">
+                <div class="card-title"><span class="icon">🌉</span> Modulation as the Foundation of FDM</div>
+                <ul class="key-points-list">
+                  <li><strong>One Physical Medium:</strong> Whether air, coaxial copper cable, or glass fiber, all senders share the same channel.</li>
+                  <li><strong>Frequency Separation:</strong> Station 1 modulates carrier <span class="math"><var>f</var><sub>c1</sub></span>; Station 2 modulates carrier <span class="math"><var>f</var><sub>c2</sub></span>; Station 3 modulates carrier <span class="math"><var>f</var><sub>c3</sub></span>.</li>
+                  <li><strong>Guard Bands:</strong> Narrow unused frequency gaps placed between adjacent channels to absorb filter roll-off and prevent cross-talk bleed.</li>
+                  <li><strong>Preview of Lecture 09:</strong> This process is the exact definition of <strong>Frequency-Division Multiplexing (FDM)</strong>, which we will explore alongside Wavelength-Division Multiplexing (WDM) and Time-Division Multiplexing (TDM) in our next lecture!</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="split-right">
+              <div class="interactive-widget-box">
+                <div class="widget-toolbar">
+                  <span class="widget-label">FDM Channel Slots & Guard Bands</span>
+                </div>
+                <div class="scope-container" style="height:320px;">
+                  <canvas id="slide-fdm-canvas" style="height:320px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 22: COMPREHENSIVE FINAL ASSESSMENT & SCORECARD
+           ==================================================================== -->
+      <section class="slide" id="slide-22">
+        <div class="slide-header">
+          <div>
+            <div class="slide-tag-group">
+              <span class="slide-badge badge-quiz">Final Assessment</span>
+            </div>
+            <h2 class="slide-title">Comprehensive Knowledge Check & Scorecard</h2>
+            <div class="slide-subtitle">Test your understanding across AM power, Carson’s rule, broadcast band planning, and receivers</div>
+          </div>
+          <div class="slide-meta-right">
+            <span class="lecture-ref">Slide 22 / 23</span>
+          </div>
+        </div>
+
+        <div class="slide-body" style="overflow-y:auto;">
+          <div id="final-quiz-container"></div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 23: CONCLUSION & ACADEMIC ATTRIBUTION
+           ==================================================================== -->
+      <section class="slide title-slide" id="slide-23">
+        <div class="title-content-box">
+          <div class="academic-badge">Presentation Conclusion & Attribution</div>
+          
+          <h2 class="main-title" style="font-size:46px;">Thank You! Any Questions?</h2>
+          
+          <p class="main-subtitle" style="font-size:20px;">
+            "Modulation is the foundation that turns physical electromagnetic waves into global information superhighways."
+          </p>
+
+          <div class="presenter-card" style="max-width:700px;">
+            <div class="presenter-avatar-box" title="Student Presenter"><svg width="32" height="32" viewBox="0 0 24 24" fill="#070d18"><path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/></svg></div>
+            <div class="presenter-info">
+              <h3>Asraful Islam</h3>
+              <div class="roll-highlight">Roll Number: 240102029</div>
+              <div class="dept">Department of Computer Science and Engineering (CSE), University of Barishal</div>
+              <div class="varsity">Course: Data Communication · Lecture 08: Analog-to-Analog Conversion</div>
+              <div style="font-size:12px; color:var(--accent-cyan); margin-top:6px; border-top:1px solid rgba(255,255,255,0.1); padding-top:6px;">
+                Special gratitude to course instructor <strong>Md Mahbub E Noor</strong>, Assistant Professor, Department of CSE, University of Barishal.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Status Bar -->
+    <footer class="bottom-bar">
+      <div class="bottom-presenter">
+        <span>Presenter: <strong>Asraful Islam (240102029)</strong> · CSE, University of Barishal</span>
+      </div>
+      <div class="bottom-keys-hint">
+        <span><kbd class="key-badge">→</kbd> <kbd class="key-badge">Space</kbd> Next</span>
+        <span><kbd class="key-badge">←</kbd> Prev</span>
+        <span><kbd class="key-badge">N</kbd> Notes</span>
+        <span><kbd class="key-badge">L</kbd> Lab</span>
+        <span><kbd class="key-badge">T</kbd> Overview</span>
+        <span><kbd class="key-badge">F</kbd> Full Screen</span>
+      </div>
+    </footer>
+
+  </div> <!-- End #presentation-app -->
+
+  <!-- ======================================================================
+       MODAL 1: EDUCATIONAL VIDEO THEATRE MODAL
+       ====================================================================== -->
+  <div class="video-modal-backdrop" id="video-modal-backdrop">
+    <div class="video-theatre-card">
+      <div class="video-theatre-header">
+        <div class="video-theatre-title" id="video-theatre-title">Demo Title</div>
+        <button type="button" class="video-close-btn" id="video-modal-close" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="video-stage-canvas-wrap">
+        <canvas id="video-stage-canvas"></canvas>
+        <div class="play-indicator-overlay" id="video-play-overlay">▶</div>
+        <div class="video-caption-bar">
+          <div class="caption-bullet"></div>
+          <div id="video-caption-text">Video narration will appear here...</div>
+        </div>
+      </div>
+
+      <div class="video-controls-bar">
+        <div class="video-scrubber-row">
+          <div class="video-timeline" id="video-timeline-track">
+            <div class="video-timeline-fill" id="video-timeline-fill"></div>
+          </div>
+          <div class="video-time-readout" id="video-time-readout">00:00 / 00:20</div>
+        </div>
+
+        <div class="video-buttons-row">
+          <div class="video-btns-left">
+            <button type="button" class="v-btn primary" id="v-play-btn">▶ Play</button>
+            <button type="button" class="v-btn" id="v-replay-btn">↺ Replay</button>
+            <button type="button" class="v-btn" id="v-speed-btn">1.0x Speed</button>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted);">
+            Lecture 08 Visual Demonstration · CSE, University of Barishal
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 2: 4-TAB ANALOG MODULATION LAB MODAL
+       ====================================================================== -->
+  <div class="video-modal-backdrop" id="lab-modal-backdrop" style="padding:16px;">
+    <div class="video-theatre-card" style="max-width:1200px; height:90vh; display:flex; flex-direction:column;">
+      <div class="video-theatre-header" style="background:#091322;">
+        <div class="video-theatre-title">
+          🔬 <span>Analog Modulation Virtual Laboratory · 4 Interactive Tabs</span>
+        </div>
+        <button type="button" class="video-close-btn" id="lab-modal-close-btn" title="Close (Esc)">✕</button>
+      </div>
+
+      <!-- Lab Tab Buttons -->
+      <div class="lab-nav">
+        <button type="button" class="lab-tab-btn active" data-tab="am">1. AM Lab</button>
+        <button type="button" class="lab-tab-btn" data-tab="fm">2. FM Lab</button>
+        <button type="button" class="lab-tab-btn" data-tab="pm">3. FM vs PM Lab</button>
+        <button type="button" class="lab-tab-btn" data-tab="band">4. Band Planner Simulator</button>
+      </div>
+
+      <!-- Lab Viewport -->
+      <div class="lab-main-viewport">
+        <!-- Tab 1: AM Panel -->
+        <div class="lab-tab-panel active" id="lab-panel-am">
+          <div class="lab-screens-column">
+            <div class="lab-scope-chassis">
+              <div class="lab-scope-header">
+                <span class="tag-signal">AM Time-Domain Signal (Orange) & Envelope (Blue Dashed)</span>
+              </div>
+              <canvas id="lab-canvas-am-time" style="height:210px;"></canvas>
+            </div>
+            <div class="lab-scope-chassis">
+              <div class="lab-scope-header">
+                <span class="tag-param">Frequency Spectrum: Carrier at fc, Sidebands at fc ± fm</span>
+              </div>
+              <canvas id="lab-canvas-am-freq" style="height:170px;"></canvas>
+            </div>
+          </div>
+
+          <div class="lab-ctrl-chassis">
+            <div class="lab-ctrl-title">AM Parameters</div>
+            <div class="lab-ctrl-group">
+              <label class="lab-label-block">
+                <div class="lab-label-header">
+                  <span>Message Frequency (fm)</span>
+                  <span class="lab-val-pill" id="lab-vAfm">3 Hz</span>
+                </div>
+                <input type="range" id="lab-aFm" min="1" max="10" step="1" value="3">
+              </label>
+
+              <label class="lab-label-block">
+                <div class="lab-label-header">
+                  <span>Carrier Frequency (fc)</span>
+                  <span class="lab-val-pill" id="lab-vAfc">40 Hz</span>
+                </div>
+                <input type="range" id="lab-aFc" min="20" max="80" step="5" value="40">
+              </label>
+
+              <label class="lab-label-block">
+                <div class="lab-label-header">
+                  <span>Modulation Index (m)</span>
+                  <span class="lab-val-pill" id="lab-vAm">0.60</span>
+                </div>
+                <input type="range" id="lab-aM" min="0" max="1.5" step="0.05" value="0.6">
+              </label>
+            </div>
+
+            <div class="lab-digital-readout">
+              <span class="lab-readout-item-name">Bandwidth (2 × fm):</span>
+              <span class="lab-readout-item-val" id="lab-rAb">6 Hz</span>
+              <span class="lab-readout-item-name">Total Power Pt:</span>
+              <span class="lab-readout-item-val" id="lab-rAp">118.0% of Pc</span>
+              <span class="lab-readout-item-name">Sideband Power:</span>
+              <span class="lab-readout-item-val" id="lab-rAs">15.3% of Pt</span>
+            </div>
+
+            <div class="lab-advice-box" id="lab-am-alert">
+              ✔ Normal AM: Envelope cleanly mirrors the message wave without distortion.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: FM Panel -->
+        <div class="lab-tab-panel" id="lab-panel-fm">
+          <div class="lab-screens-column">
+            <div class="lab-scope-chassis">
+              <div class="lab-scope-header">
+                <span class="tag-signal">Message (Blue Dashed) & FM Signal (Cyan)</span>
+              </div>
+              <canvas id="lab-canvas-fm-time" style="height:210px;"></canvas>
+            </div>
+            <div class="lab-scope-chassis">
+              <div class="lab-scope-header">
+                <span class="tag-param">Bessel Spectrum (|Jn|) & Shaded Carson Bandwidth</span>
+              </div>
+              <canvas id="lab-canvas-fm-freq" style="height:170px;"></canvas>
+            </div>
+          </div>
+
+          <div class="lab-ctrl-chassis">
+            <div class="lab-ctrl-title">FM Parameters</div>
+            <div class="lab-ctrl-group">
+              <label class="lab-label-block">
+                <div class="lab-label-header">
+                  <span>Message Frequency (fm)</span>
+                  <span class="lab-val-pill" id="lab-vFfm">15 kHz</span>
+                </div>
+                <input type="range" id="lab-fFm" min="1" max="15" step="1" value="15">
+              </label>
+
+              <label class="lab-label-block">
+                <div class="lab-label-header">
+                  <span>Frequency Deviation (Δf)</span>
+                  <span class="lab-val-pill" id="lab-vFdf">60 kHz</span>
+                </div>
+                <input type="range" id="lab-fDf" min="0" max="100" step="5" value="60">
+              </label>
+            </div>
+
+            <div class="lab-digital-readout">
+              <span class="lab-readout-item-name">Modulation Index β:</span>
+              <span class="lab-readout-item-val" id="lab-rFb">4.00</span>
+              <span class="lab-readout-item-name">Carson Bandwidth:</span>
+              <span class="lab-readout-item-val" id="lab-rFc">150 kHz</span>
+              <span class="lab-readout-item-name">Significant Lines:</span>
+              <span class="lab-readout-item-val" id="lab-rFl">±5 lines</span>
+            </div>
+
+            <div class="lab-advice-box">
+              Broadcast FM benchmark: audio up to 15 kHz with β = 4 gives a Carson bandwidth of 150 kHz, comfortably inside the 200 kHz channel allocation.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: FM vs PM Panel -->
+        <div class="lab-tab-panel" id="lab-panel-pm">
+          <div class="lab-screens-column">
+            <div class="lab-scope-chassis">
+              <div class="lab-scope-header"><span>1. Modulating Message Signal m(t)</span></div>
+              <canvas id="lab-canvas-pm-msg" style="height:90px;"></canvas>
+            </div>
+            <div class="lab-scope-chassis">
+              <div class="lab-scope-header"><span>2. FM Waveform (frequency highest where m is highest)</span></div>
+              <canvas id="lab-canvas-pm-fm" style="height:110px;"></canvas>
+            </div>
+            <div class="lab-scope-chassis">
+              <div class="lab-scope-header"><span>3. PM Waveform (frequency highest where m rises fastest, dm/dt)</span></div>
+              <canvas id="lab-canvas-pm-pm" style="height:110px;"></canvas>
+            </div>
+          </div>
+
+          <div class="lab-ctrl-chassis">
+            <div class="lab-ctrl-title">FM vs PM Comparison</div>
+            <div class="lab-ctrl-group">
+              <label class="lab-label-block">
+                <div class="lab-label-header"><span>Message Waveform</span></div>
+                <select id="lab-pS" class="lab-select">
+                  <option value="sin">Sine Wave</option>
+                  <option value="tri">Triangular Wave</option>
+                  <option value="sq">Smoothed Square Wave</option>
+                </select>
+              </label>
+
+              <label class="lab-label-block">
+                <div class="lab-label-header">
+                  <span>Modulation Strength</span>
+                  <span class="lab-val-pill" id="lab-vPk">0.60</span>
+                </div>
+                <input type="range" id="lab-pK" min="0.1" max="1" step="0.05" value="0.6">
+              </label>
+            </div>
+
+            <div class="lab-advice-box">
+              PM of a message wave is mathematically equivalent to FM of its derivative (<span class="math">d<var>m</var>/d<var>t</var></span>). That is why a PM wave alters frequency where the message changes fastest, not where it is highest!
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Band Planner Panel -->
+        <div class="lab-tab-panel" id="lab-panel-band">
+          <div class="lab-screens-column">
+            <div class="lab-scope-chassis" style="flex:1;">
+              <div class="lab-scope-header">
+                <span>Radio Broadcast Frequency Band Station Allocation Chart</span>
+              </div>
+              <canvas id="lab-canvas-band" style="height:260px;"></canvas>
+            </div>
+          </div>
+
+          <div class="lab-ctrl-chassis">
+            <div class="lab-ctrl-title">Band Planning Simulator</div>
+            <div class="lab-ctrl-group">
+              <label class="lab-label-block">
+                <div class="lab-label-header"><span>Broadcast Band</span></div>
+                <select id="lab-bB" class="lab-select">
+                  <option value="am10">AM (MW) 530–1700 kHz, 10 kHz spacing (FCC / USA)</option>
+                  <option value="am9">AM (MW) 531–1602 kHz, 9 kHz spacing (Asia, Bangladesh & Europe)</option>
+                  <option value="fm">FM 88–108 MHz, 200 kHz spacing</option>
+                </select>
+              </label>
+
+              <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:#cbd5e1; cursor:pointer;">
+                <input type="checkbox" id="lab-bAlt">
+                <span>Use alternate channels in one area</span>
+              </label>
+            </div>
+
+            <div class="lab-digital-readout">
+              <span class="lab-readout-item-name">Channel Width:</span>
+              <span class="lab-readout-item-val" id="lab-rBw">10 kHz</span>
+              <span class="lab-readout-item-name">Available Stations:</span>
+              <span class="lab-readout-item-val" id="lab-rBn">117 channels</span>
+            </div>
+
+            <div class="lab-advice-box">
+              Distinguish channel allocation from minimum signal bandwidth: AM needs $2 \times 5 = 10\text{ kHz}$; FM needs $2(1 + 4) \times 15 = 150\text{ kHz}$, but is allocated 200 kHz to supply guard bands against adjacent station bleed.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       DRAWER 1: SPEAKER NOTES HUD (PRESS 'N')
+       ====================================================================== -->
+  <aside class="notes-drawer" id="speaker-notes-drawer">
+    <div class="notes-header">
+      <div class="notes-title">
+        <span>🎙</span> Presenter Notes (Lecture Script)
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-family:monospace; font-size:12px; color:var(--accent-cyan);" id="notes-stopwatch">00:00</span>
+        <button type="button" class="video-close-btn" id="notes-close-btn">✕</button>
+      </div>
+    </div>
+
+    <div class="notes-body">
+      <div style="font-size:15px; font-weight:700; color:#fff;" id="notes-slide-title">
+        Slide 1: Title
+      </div>
+
+      <div class="note-section-card">
+        <h4>1. How to Introduce this Slide</h4>
+        <div id="note-intro-text">Introduction script...</div>
+      </div>
+
+      <div class="note-section-card">
+        <h4>2. Diagram Explanation for Teacher</h4>
+        <div id="note-diagram-text">Diagram points...</div>
+      </div>
+
+      <div class="note-section-card">
+        <h4>3. Mathematical Formula Breakdown</h4>
+        <div id="note-math-text">Formula explanation...</div>
+      </div>
+
+      <div class="note-section-card">
+        <h4>4. Key Takeaway to Emphasize</h4>
+        <div id="note-emphasis-text">Key exam point...</div>
+      </div>
+
+      <div class="note-section-card">
+        <h4>5. Verbal Transition to Next Slide</h4>
+        <div id="note-transition-text">Segue script...</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ======================================================================
+       DRAWER 2: SLIDE OVERVIEW & THUMBNAILS (PRESS 'T')
+       ====================================================================== -->
+  <div class="overview-drawer" id="slide-overview-drawer">
+    <div class="overview-header">
+      <div style="font-size:22px; font-weight:700; color:#fff;">Slide Navigation Overview (23 Slides)</div>
+      <button type="button" class="video-close-btn" id="overview-close-btn">✕</button>
+    </div>
+    <div class="overview-grid" id="overview-thumbnails-grid"></div>
+  </div>
+
+  <!-- ======================================================================
+       SCRIPTS
+       ====================================================================== -->
+  <script src="js/slides-data.js"></script>
+  <script src="js/waveforms.js"></script>
+  <script src="js/spectrum.js"></script>
+  <script src="js/video-demos.js"></script>
+  <script src="js/lab.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/presentation.js"></script>
+
+  <script>
+    // Bootstrapping
+    document.addEventListener('DOMContentLoaded', () => {
+      Presentation.init();
+      VideoDemos.init();
+      AnalogLab.init();
+      QuizEngine.init();
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analog Modulation Virtual Lab · Lecture 08</title>
+  
+  <link rel="stylesheet" href="css/presentation.css">
+  <link rel="stylesheet" href="css/lab.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body style="overflow:auto;">
+
+  <div class="lab-app-container" style="min-height:100vh;">
+    <!-- Lab Top Bar -->
+    <header class="lab-header">
+      <div class="lab-header-left">
+        <a href="index.html" class="nav-btn" style="text-decoration:none;">
+          ◀ Back to Slide Deck
+        </a>
+        <span class="lab-title-badge">LAB 08</span>
+        <div>
+          <h1>Analog Modulation Virtual Laboratory</h1>
+          <p>Data Communication · Lecture 08 · Asraful Islam (Roll: 240102029) · University of Barishal</p>
+        </div>
+      </div>
+      <div>
+        <a href="index.html" class="nav-btn special-lab" style="text-decoration:none;">
+          🖥 Launch Presentation
+        </a>
+      </div>
+    </header>
+
+    <!-- Lab Tab Nav -->
+    <nav class="lab-nav">
+      <button type="button" class="lab-tab-btn active" data-tab="am">1. AM Lab</button>
+      <button type="button" class="lab-tab-btn" data-tab="fm">2. FM Lab</button>
+      <button type="button" class="lab-tab-btn" data-tab="pm">3. FM vs PM Lab</button>
+      <button type="button" class="lab-tab-btn" data-tab="band">4. Band Planner Simulator</button>
+    </nav>
+
+    <!-- Lab Viewport -->
+    <main class="lab-main-viewport" style="position:static; flex:1;">
+      <!-- Tab 1: AM Panel -->
+      <section class="lab-tab-panel active" id="lab-panel-am" style="position:static; height:auto;">
+        <div class="lab-screens-column">
+          <div class="lab-scope-chassis">
+            <div class="lab-scope-header">
+              <span class="tag-signal">AM Time-Domain Signal (Orange) & Envelope (Blue Dashed)</span>
+            </div>
+            <canvas id="lab-canvas-am-time" style="height:250px;"></canvas>
+          </div>
+          <div class="lab-scope-chassis">
+            <div class="lab-scope-header">
+              <span class="tag-param">Frequency Spectrum: Carrier at fc, Sidebands at fc ± fm</span>
+            </div>
+            <canvas id="lab-canvas-am-freq" style="height:190px;"></canvas>
+          </div>
+        </div>
+
+        <div class="lab-ctrl-chassis">
+          <div class="lab-ctrl-title">AM Parameters</div>
+          <div class="lab-ctrl-group">
+            <label class="lab-label-block">
+              <div class="lab-label-header">
+                <span>Message Frequency (fm)</span>
+                <span class="lab-val-pill" id="lab-vAfm">3 Hz</span>
+              </div>
+              <input type="range" id="lab-aFm" min="1" max="10" step="1" value="3">
+            </label>
+
+            <label class="lab-label-block">
+              <div class="lab-label-header">
+                <span>Carrier Frequency (fc)</span>
+                <span class="lab-val-pill" id="lab-vAfc">40 Hz</span>
+              </div>
+              <input type="range" id="lab-aFc" min="20" max="80" step="5" value="40">
+            </label>
+
+            <label class="lab-label-block">
+              <div class="lab-label-header">
+                <span>Modulation Index (m)</span>
+                <span class="lab-val-pill" id="lab-vAm">0.60</span>
+              </div>
+              <input type="range" id="lab-aM" min="0" max="1.5" step="0.05" value="0.6">
+            </label>
+          </div>
+
+          <div class="lab-digital-readout">
+            <span class="lab-readout-item-name">Bandwidth (2 × fm):</span>
+            <span class="lab-readout-item-val" id="lab-rAb">6 Hz</span>
+            <span class="lab-readout-item-name">Total Power Pt:</span>
+            <span class="lab-readout-item-val" id="lab-rAp">118.0% of Pc</span>
+            <span class="lab-readout-item-name">Sideband Power:</span>
+            <span class="lab-readout-item-val" id="lab-rAs">15.3% of Pt</span>
+          </div>
+
+          <div class="lab-advice-box" id="lab-am-alert">
+            ✔ Normal AM: Envelope cleanly mirrors the message wave without distortion.
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 2: FM Panel -->
+      <section class="lab-tab-panel" id="lab-panel-fm" style="position:static; height:auto;">
+        <div class="lab-screens-column">
+          <div class="lab-scope-chassis">
+            <div class="lab-scope-header">
+              <span class="tag-signal">Message (Blue Dashed) & FM Signal (Cyan)</span>
+            </div>
+            <canvas id="lab-canvas-fm-time" style="height:250px;"></canvas>
+          </div>
+          <div class="lab-scope-chassis">
+            <div class="lab-scope-header">
+              <span class="tag-param">Bessel Spectrum (|Jn|) & Shaded Carson Bandwidth</span>
+            </div>
+            <canvas id="lab-canvas-fm-freq" style="height:190px;"></canvas>
+          </div>
+        </div>
+
+        <div class="lab-ctrl-chassis">
+          <div class="lab-ctrl-title">FM Parameters</div>
+          <div class="lab-ctrl-group">
+            <label class="lab-label-block">
+              <div class="lab-label-header">
+                <span>Message Frequency (fm)</span>
+                <span class="lab-val-pill" id="lab-vFfm">15 kHz</span>
+              </div>
+              <input type="range" id="lab-fFm" min="1" max="15" step="1" value="15">
+            </label>
+
+            <label class="lab-label-block">
+              <div class="lab-label-header">
+                <span>Frequency Deviation (Δf)</span>
+                <span class="lab-val-pill" id="lab-vFdf">60 kHz</span>
+              </div>
+              <input type="range" id="lab-fDf" min="0" max="100" step="5" value="60">
+            </label>
+          </div>
+
+          <div class="lab-digital-readout">
+            <span class="lab-readout-item-name">Modulation Index β:</span>
+            <span class="lab-readout-item-val" id="lab-rFb">4.00</span>
+            <span class="lab-readout-item-name">Carson Bandwidth:</span>
+            <span class="lab-readout-item-val" id="lab-rFc">150 kHz</span>
+            <span class="lab-readout-item-name">Significant Lines:</span>
+            <span class="lab-readout-item-val" id="lab-rFl">±5 lines</span>
+          </div>
+
+          <div class="lab-advice-box">
+            Broadcast FM benchmark: audio up to 15 kHz with β = 4 gives a Carson bandwidth of 150 kHz, comfortably inside the 200 kHz channel allocation.
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 3: FM vs PM Panel -->
+      <section class="lab-tab-panel" id="lab-panel-pm" style="position:static; height:auto;">
+        <div class="lab-screens-column">
+          <div class="lab-scope-chassis">
+            <div class="lab-scope-header"><span>1. Modulating Message Signal m(t)</span></div>
+            <canvas id="lab-canvas-pm-msg" style="height:100px;"></canvas>
+          </div>
+          <div class="lab-scope-chassis">
+            <div class="lab-scope-header"><span>2. FM Waveform (frequency highest where m is highest)</span></div>
+            <canvas id="lab-canvas-pm-fm" style="height:130px;"></canvas>
+          </div>
+          <div class="lab-scope-chassis">
+            <div class="lab-scope-header"><span>3. PM Waveform (frequency highest where m rises fastest, dm/dt)</span></div>
+            <canvas id="lab-canvas-pm-pm" style="height:130px;"></canvas>
+          </div>
+        </div>
+
+        <div class="lab-ctrl-chassis">
+          <div class="lab-ctrl-title">FM vs PM Comparison</div>
+          <div class="lab-ctrl-group">
+            <label class="lab-label-block">
+              <div class="lab-label-header"><span>Message Waveform</span></div>
+              <select id="lab-pS" class="lab-select">
+                <option value="sin">Sine Wave</option>
+                <option value="tri">Triangular Wave</option>
+                <option value="sq">Smoothed Square Wave</option>
+              </select>
+            </label>
+
+            <label class="lab-label-block">
+              <div class="lab-label-header">
+                <span>Modulation Strength</span>
+                <span class="lab-val-pill" id="lab-vPk">0.60</span>
+              </div>
+              <input type="range" id="lab-pK" min="0.1" max="1" step="0.05" value="0.6">
+            </label>
+          </div>
+
+          <div class="lab-advice-box">
+            PM of a message wave is mathematically equivalent to FM of its derivative ($\frac{dm}{dt}$). That is why a PM wave alters frequency where the message changes fastest, not where it is highest!
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 4: Band Planner Panel -->
+      <section class="lab-tab-panel" id="lab-panel-band" style="position:static; height:auto;">
+        <div class="lab-screens-column">
+          <div class="lab-scope-chassis" style="flex:1;">
+            <div class="lab-scope-header">
+              <span>Radio Broadcast Frequency Band Station Allocation Chart</span>
+            </div>
+            <canvas id="lab-canvas-band" style="height:320px;"></canvas>
+          </div>
+        </div>
+
+        <div class="lab-ctrl-chassis">
+          <div class="lab-ctrl-title">Band Planning Simulator</div>
+          <div class="lab-ctrl-group">
+            <label class="lab-label-block">
+              <div class="lab-label-header"><span>Broadcast Band</span></div>
+              <select id="lab-bB" class="lab-select">
+                <option value="am10">AM (MW) 530–1700 kHz, 10 kHz spacing (FCC / USA)</option>
+                <option value="am9">AM (MW) 531–1602 kHz, 9 kHz spacing (Asia, Bangladesh & Europe)</option>
+                <option value="fm">FM 88–108 MHz, 200 kHz spacing</option>
+              </select>
+            </label>
+
+            <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:#cbd5e1; cursor:pointer;">
+              <input type="checkbox" id="lab-bAlt">
+              <span>Use alternate channels in one area</span>
+            </label>
+          </div>
+
+          <div class="lab-digital-readout">
+            <span class="lab-readout-item-name">Channel Width:</span>
+            <span class="lab-readout-item-val" id="lab-rBw">10 kHz</span>
+            <span class="lab-readout-item-name">Available Stations:</span>
+            <span class="lab-readout-item-val" id="lab-rBn">117 channels</span>
+          </div>
+
+          <div class="lab-advice-box">
+            Distinguish channel allocation from minimum signal bandwidth: AM needs $2 \times 5 = 10\text{ kHz}$; FM needs $2(1 + 4) \times 15 = 150\text{ kHz}$, but is allocated 200 kHz to supply guard bands against adjacent station bleed.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/waveforms.js"></script>
+  <script src="js/spectrum.js"></script>
+  <script src="js/lab.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AnalogLab.init();
+    });
+  </script>
+</body>
+</html>

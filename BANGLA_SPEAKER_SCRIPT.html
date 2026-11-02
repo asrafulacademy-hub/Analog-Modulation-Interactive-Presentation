@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>বাংলা প্রেজেন্টেশন স্ক্রিপ্ট · Asraful Islam</title>
+  <style>
+    :root {
+      --bg: #0d1527;
+      --card-bg: #152238;
+      --card-border: #23395d;
+      --primary: #00f0ff;
+      --accent: #ffbe0b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --highlight: #38bdf8;
+      --success: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hind Siliguri', 'Kalpurush', sans-serif;
+      line-height: 1.7;
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    header {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid var(--primary);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 240, 255, 0.15);
+    }
+    h1 { font-size: 22px; color: #fff; margin-bottom: 8px; }
+    .badge {
+      display: inline-block;
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .info { font-size: 14px; color: var(--text-muted); }
+    .info strong { color: #fff; }
+    
+    /* Quick Jump Nav */
+    .quick-nav {
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      background: rgba(13, 21, 39, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .quick-nav a {
+      background: var(--card-bg);
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--card-border);
+    }
+    .quick-nav a:hover, .quick-nav a:focus {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+    }
+
+    /* Speech Cards */
+    .speech-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      scroll-margin-top: 70px;
+    }
+    .speech-card.special {
+      border-left: 5px solid var(--primary);
+      background: linear-gradient(145deg, #152238, #182842);
+    }
+    .slide-num {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .slide-heading {
+      font-size: 18px;
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 14px;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+    }
+    .script-text {
+      font-size: 16px;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+    .script-text strong {
+      color: var(--accent);
+    }
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--highlight);
+      margin-top: 12px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tip-box {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #cbd5e1;
+      margin-top: 10px;
+    }
+    .transition-box {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid var(--success);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #a7f3d0;
+      margin-top: 10px;
+    }
+    footer {
+      text-align: center;
+      padding: 24px 0 40px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">মোবাইল স্পিকার টেলিপ্রম্পটার</div>
+    <h1>ডাটা কমিউনিকেশন প্রেজেন্টেশন স্ক্রিপ্ট (বাংলা)</h1>
+    <div class="info">
+      উপস্থাপক: <strong>আশরাফুল ইসলাম (Asraful Islam)</strong> | রোল: <strong>২৪০১০২০২৯</strong><br>
+      বিভাগ: <strong>কম্পিউটার সায়েন্স অ্যান্ড ইঞ্জিনিয়ারিং (সিএসই), বরিশাল বিশ্ববিদ্যালয়</strong><br>
+      কোর্স: <strong>Data Communication (Lecture 08)</strong><br>
+      টপিক: <strong>Analog-to-Analog Conversion (AM, FM, PM)</strong>
+    </div>
+  </header>
+
+  <!-- Quick Navigation Links for Mobile -->
+  <nav class="quick-nav">
+    <a href="#intro">শুরুর বক্তব্য</a>
+    <a href="#s1">স্লাইড ১</a>
+    <a href="#s2">স্লাইড ২</a>
+    <a href="#s3">স্লাইড ৩</a>
+    <a href="#s5">স্লাইড ৫ (AM)</a>
+    <a href="#s6">স্লাইড ৬ (m)</a>
+    <a href="#s7">স্লাইড ৭ (স্পেকট্রাম)</a>
+    <a href="#s8">স্লাইড ৮ (ম্যাথ)</a>
+    <a href="#s9">স্লাইড ৯ (পাওয়ার)</a>
+    <a href="#s11">স্লাইড ১১ (FM)</a>
+    <a href="#s12">স্লাইড ১২ (কারসন)</a>
+    <a href="#s13">স্লাইড ১৩ (FM ম্যাথ)</a>
+    <a href="#s14">স্লাইড ১৪ (নয়েজ)</a>
+    <a href="#s15">স্লাইড ১৫ (PM)</a>
+    <a href="#s16">স্লাইড ১৬ (তুলনা)</a>
+    <a href="#s19">স্লাইড ১৯ (ডিমডুলেশন)</a>
+    <a href="#s21">স্লাইড ২১ (FDM)</a>
+    <a href="#s23">সমাপনী বক্তব্য</a>
+  </nav>
+
+  <!-- ======================================================================
+       FORMAL OPENING SPEECH
+       ====================================================================== -->
+  <div class="speech-card special" id="intro">
+    <div class="slide-num">প্রেজেন্টেশনের শুরুর বক্তব্য (Formal Opening Speech)</div>
+    <div class="slide-heading">স্টেজে দাঁড়িয়ে যেভাবে শুরু করবেন:</div>
+    <div class="script-text">
+      "আসসালামু আলাইকুম এবং শুভ সকাল, সম্মানিত শিক্ষক এবং আমার সহপাঠী বন্ধুরা।<br><br>
+      আমি <strong>আশরাফুল ইসলাম</strong>, রোল <strong>২৪০১০২০২৯</strong>, কম্পিউটার সায়েন্স অ্যান্ড ইঞ্জিনিয়ারিং বিভাগ, বরিশাল বিশ্ববিদ্যালয়।<br><br>
+      আজ আমাদের ডাটা কমিউনিকেশন কোর্সের <strong>লেকচার ০৮: Analog-to-Analog Conversion</strong> নিয়ে প্রেজেন্টেশন দেওয়ার সুযোগ পেয়ে আমি অত্যন্ত আনন্দিত। আমাদের বাস্তব জীবনের ভয়েস বা অডিও সিগন্যালকে কীভাবে রেডিও তরঙ্গের মাধ্যমে বহুদূর পাঠাতে হয় এবং এর পেছনে <strong>AM (Amplitude Modulation), FM (Frequency Modulation), এবং PM (Phase Modulation)</strong> কীভাবে কাজ করে—আজকের প্রেজেন্টেশনে আমরা তার প্রতিটি টেকনিক্যাল ও গাণিতিক বিষয় বিস্তারিত আলোচনা করব।<br><br>
+      তাহলে চলুন, সরাসরি আজকের মূল লেকচারে চলে যাই।"
+    </div>
+  </div>
+
+  <!-- SLIDE 1 -->
+  <div class="speech-card" id="s1">
+    <div class="slide-num">স্লাইড ১ · Title Slide</div>
+    <div class="slide-heading">Analog-to-Analog Conversion (AM, FM, PM)</div>
+    <div class="script-text">
+      "শ্রদ্ধেয় স্যার, আমাদের স্লাইড ১-এ প্রদর্শিত হচ্ছে আজকের মূল টপিক—Analog-to-Analog Conversion। নিচে লাইভ অ্যানিমেশনে যে তরঙ্গের ওঠানামা দেখা যাচ্ছে, এটি হলো একটি ক্যারিয়ার ওয়েভ, যার ওপর আমাদের মেসেজ সিগন্যালকে চাপানো হয়েছে। আজকের পুরো প্রেজেন্টেশনে আমরা দেখব কীভাবে একটি লো-ফ্রিকোয়েন্সি ভয়েস সিগন্যাল হাই-ফ্রিকোয়েন্সি ক্যারিয়ার তরঙ্গে রূপ নিয়ে মহাকাশ বা বাতাসে ছড়িয়ে পড়ে।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "চলুন প্রথমে দেখি আমাদের সিলেবাসের সামগ্রিক রোডম্যাপে আজকের লেকচারটি কোথায় অবস্থান করছে।"</div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="speech-card" id="s2">
+    <div class="slide-num">স্লাইড ২ · Context & Roadmap</div>
+    <div class="slide-heading">The Four Conversions (ফরুজানের চারটি রূপান্তর)</div>
+    <div class="script-text">
+      "ফরুজানের পাঠ্যবই অনুসারে ডাটা কমিউনিকেশনে সিগন্যাল রূপান্তরের প্রধান চারটি ধাপ রয়েছে। পূর্ববর্তী লেকচারগুলোতে আমরা ডিজিটাল টেকনিকগুলো পড়ে এসেছি—যেমন লেকচার ৫-এ অ্যানালগ থেকে ডিজিটাল (PCM), লেকচার ৬-এ ডিজিটাল থেকে ডিজিটাল (Line Coding), এবং লেকচার ৭-এ ডিজিটাল থেকে অ্যানালগ (ASK, FSK, PSK, QAM)।<br><br>
+      আজকের <strong>লেকচার ৮</strong> হলো সম্পূর্ণ অ্যানালগ সিগন্যাল নিয়ে—অর্থাৎ <strong>অ্যানালগ ডাটাকে সরাসরি অ্যানালগ তরঙ্গে কনভার্ট করা (AM, FM, PM)</strong>। আজকের ক্লাসে আমরা অ্যান্টেনার ফিজিক্যাল লিমিটেশন, AM-এর পাওয়ার লস, কারসনের রুল এবং ব্রডকাস্ট ব্যান্ড প্ল্যানিং বিস্তারিত সমাধান করব।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এখন সবার মনে একটি মৌলিক প্রশ্ন জাগতে পারে—আমরা কেন আমাদের স্বাভাবিক গলার আওয়াজ সরাসরি বাতাসে না পাঠিয়ে একটি ক্যারিয়ারের ওপর চাপাই?"</div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="speech-card" id="s3">
+    <div class="slide-num">স্লাইড ৩ · Core Motivation</div>
+    <div class="slide-heading">Why Put an Analog Signal on a Carrier? (ক্যারিয়ারের প্রয়োজন কেন?)</div>
+    <div class="script-text">
+      "স্যার, অডিও সিগন্যাল সরাসরি বাতাসে না পাঠিয়ে ক্যারিয়ারে দেওয়ার <strong>প্রধান কারণ দুটি</strong>:<br><br>
+      <strong>১. অ্যান্টেনার দৈর্ঘ্য ও পদার্থবিজ্ঞানের নিয়ম:</strong> তড়িৎচৌম্বকীয় তরঙ্গ বাতাসে ছাড়তে হলে অ্যান্টেনার উচ্চতা কমপক্ষে সিগন্যালের তরঙ্গদৈর্ঘ্যের এক-চতুর্থাংশ বা <strong>λ/4</strong> হতে হয়। মানুষের গলার স্বাভাবিক ১ কিলোহার্জ (1 kHz) অডিওর তরঙ্গদৈর্ঘ্য λ = 3×10⁸ / 10³ = ৩০০ কিলোমিটার! এর জন্য অ্যান্টেনা লাগবে <strong>৭৫ কিলোমিটার উঁচু</strong>—যা বাস্তবে বানানো অসম্ভব! কিন্তু এটিকে যদি আমরা ১০০ মেগাহার্জের (100 MHz) FM ক্যারিয়ারে মডুলেট করি, তবে অ্যান্টেনা লাগবে মাত্র <strong>৭৫ সেন্টিমিটার</strong>—যা আমাদের মোবাইল বা গাড়ির ছাদেই অনায়াসে এঁটে যায়!<br><br>
+      <strong>২. মাধ্যমের সংঘর্ষ রোধ (Collision):</strong> সব মানুষের গলার স্বর ২০ হার্জ থেকে ২০ কিলোহার্জের ভেতর। সব রেডিও স্টেশন যদি সরাসরি অডিও পাঠাত, তবে সবার আওয়াজ একে অপরের সাথে ধাক্কা খেয়ে বিশৃঙ্খলা তৈরি করত। প্রতিটি স্টেশনকে আলাদা ক্যারিয়ার ফ্রিকোয়েন্সি দিলে হাজার হাজার স্টেশন একই বাতাসে একসাথে প্রচার চালাতে পারে।"
+    </div>
+    <div class="tip-box">💡 <em>স্যারকে ইমপ্রেস করার পয়েন্ট:</em> ডানপাশের <strong>'Watch Video Demo'</strong> বাটনে ক্লিক করে অ্যানিমেশনটি দেখিয়ে বলতে পারেন: "স্যার, এই ডেমোতে পরিষ্কার দেখা যাচ্ছে ক্যারিয়ারের ফ্রিকোয়েন্সি বাড়ালে কীভাবে অ্যান্টেনার সাইজ ৭৫ কিলোমিটার থেকে মাত্র ৭৫ সেন্টিমিটারে নেমে আসে।"</div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "তাহলে ক্যারিয়ারের ওপর মেসেজ চাপানোর কী কী উপায় আছে? চলুন স্লাইড ৪-এ দেখি।"</div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="speech-card" id="s4">
+    <div class="slide-num">স্লাইড ৪ · Three Ways</div>
+    <div class="slide-heading">Three Ways to Carry an Analog Message (তিনটি পদ্ধতি)</div>
+    <div class="script-text">
+      "একটি সাইন তরঙ্গের সমীকরণ হলো: <strong>c(t) = Ac cos(2π fc t + φ)</strong>। এখানে পরিবর্তন করার মতো স্বাধীন প্যারামিটার আছে তিনটি—<br><br>
+      ১. <strong>Amplitude Modulation (AM):</strong> ক্যারিয়ারের বিস্তার (Amplitude) মেসেজ অনুযায়ী ওঠানামা করে; ফ্রিকোয়েন্সি ও ফেজ অপরিবর্তিত থাকে।<br>
+      ২. <strong>Frequency Modulation (FM):</strong> ক্যারিয়ারের ফ্রিকোয়েন্সি মেসেজের ভোল্টেজ অনুযায়ী দ্রুত বা ধীরে কাঁপে; অ্যামপ্লিচিউড সম্পূর্ণ স্থির থাকে।<br>
+      ৩. <strong>Phase Modulation (PM):</strong> ক্যারিয়ারের ফেজ অ্যাঙ্গেল মেসেজ অনুযায়ী শিফট হয়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "প্রথমে আমরা বিস্তারিত আলোচনা করব অ্যামপ্লিচিউড মডুলেশন বা AM নিয়ে।"</div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="speech-card" id="s5">
+    <div class="slide-num">স্লাইড ৫ · Amplitude Modulation</div>
+    <div class="slide-heading">AM Signal Equation & The Envelope (AM সিগন্যাল ও এনভেলপ)</div>
+    <div class="script-text">
+      "স্যার, AM-এর মূল সমীকরণটি হলো:<br>
+      <strong>s(t) = Ac [1 + m · cos(2π fm t)] · cos(2π fc t)</strong><br><br>
+      এখানে ক্যারিয়ারকে <strong>[1 + m · m(t)]</strong> দিয়ে গুণ করা হয়।<br>
+      ডানপাশের অসিলোস্কোপ গ্রাফে লক্ষ করুন—ভেতরের ঘন কমলা রঙের তরঙ্গটি হলো হাই-ফ্রিকোয়েন্সি ক্যারিয়ার, আর ওপরের নীল ড্যাশড লাইনটি হলো <strong>এনভেলপ (Envelope)</strong>। এই এনভেলপটিই হুবহু আমাদের আসল মেসেজ বা অডিও সিগন্যালের অবিকল প্রতিচ্ছবি। রিসিভার যখন এই এনভেলপের পিঠগুলো ট্রেস করে, তখনই অডিও সিগন্যালটি নিখুঁতভাবে উদ্ধার হয়ে যায়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এই মডুলেশন কতটুকু গভীর করা সম্ভব? এটি জানতে আমাদের বুঝতে হবে মডুলেশন ইনডেক্স m।"</div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="speech-card" id="s6">
+    <div class="slide-num">স্লাইড ৬ · Modulation Index m</div>
+    <div class="slide-heading">Modulation Index m & Overmodulation (ওভারমডুলেশন)</div>
+    <div class="script-text">
+      "মডুলেশন ইনডেক্স <strong>m</strong> নির্ধারণ করে অডিও সিগন্যাল ক্যারিয়ারের অ্যামপ্লিচিউডকে কতটা গভীরভাবে প্রভাবিত করছে। ফরুজানের বইয়ের ফর্মুলা হলো:<br>
+      <strong>m = (Amax - Amin) / (Amax + Amin)</strong><br><br>
+      এখানে তিনটি বিশেষ অবস্থা রয়েছে:<br>
+      ১. <strong>m &lt; 1 (Under-modulation):</strong> এটি নিরাপদ অবস্থা। এনভেলপ কখনো শূন্য লাইন স্পর্শ করে না, তাই কোনো নয়েজ বা বিকৃতি ছাড়া অডিও শোনা যায়।<br>
+      ২. <strong>m = 1 (100% Modulation):</strong> সবচেয়ে কার্যকরী অবস্থা। এনভেলপ ঠিক শূন্য লাইন ছুঁয়ে যায়।<br>
+      ৩. <strong>m &gt; 1 (Overmodulation - ডেঞ্জার জোন!):</strong> যদি অডিও খুব বেশি লাউড হয়ে যায় এবং m একের চেয়ে বড় হয়, তখন এনভেলপ শূন্য লাইন ক্রস করে উল্টে যায় (Phase Inversion)! সাধারণ ডায়োড রিসিভার এই উল্টো অংশ কেটে ফেলে, যার ফলে রেডিওতে বিকট ফাটা ও বিকৃত শব্দ (Audio Distortion) তৈরি হয়।"
+    </div>
+    <div class="tip-box">💡 <em>ইন্টারঅ্যাক্টিভ ডেমো দেখানোর সময় বলুন:</em> "স্যার, স্লাইডের নিচের স্লাইডারটি টেনে m-এর মান ১.৩-এ নিলেই দেখুন আমাদের অ্যালার্ট বক্স লাল হয়ে 'Overmodulation Warning' দেখাচ্ছে এবং গ্রাফে এনভেলপ ফোল্ড হয়ে যাচ্ছে।"</div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "চলুন এবার AM সিগন্যালকে ফ্রিকোয়েন্সি স্পেকট্রামে বিশ্লেষণ করি।"</div>
+  </div>
+
+  <!-- SLIDE 7 -->
+  <div class="speech-card" id="s7">
+    <div class="slide-num">স্লাইড ৭ · AM Spectrum</div>
+    <div class="slide-heading">AM Spectrum: Carrier & Mirror Sidebands (স্পেকট্রাম ও ব্যান্ডউইথ)</div>
+    <div class="script-text">
+      "ত্রিকোণমিতিক সূত্র cos(A)cos(B) প্রয়োগ করলে দেখা যায়, একটি AM সিগন্যালে ঠিক <strong>তিনটি ফ্রিকোয়েন্সি লাইন</strong> তৈরি হয়—<br>
+      ১. ঠিক মাঝখানে মূল ক্যারিয়ার ফ্রিকোয়েন্সি <strong>fc</strong>。<br>
+      ২. বামপাশে লোয়ার সাইডব্যান্ড <strong>LSB = fc - fm</strong>。<br>
+      ৩. ডানপাশে আপার সাইডব্যান্ড <strong>USB = fc + fm</strong>。<br><br>
+      অতএব, AM সিগন্যালের মোট ব্যান্ডউইথ হলো: <strong>B(AM) = (fc + fm) - (fc - fm) = 2 · fm = 2B</strong>。<br>
+      অর্থাৎ, মূল অডিওর ব্যান্ডউইথ যা হবে, AM-এর মোট ব্যান্ডউইথ তার <strong>ঠিক দ্বিগুণ</strong> হবে। লক্ষ্যণীয় বিষয় হলো, LSB এবং USB দুটিই একই তথ্য বহন করে। তাই স্পেকট্রাম বাঁচাতে আধুনিক প্রযুক্তিতে <strong>Single-Sideband (SSB)</strong> ব্যবহার করা হয়, যা একটি সাইডব্যান্ড ছেঁটে ফেলে ব্যান্ডউইথ অর্ধেক করে দেয়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "চলুন এবার এই সূত্রগুলো দিয়ে বইয়ের ম্যাথ ও ব্যান্ড প্ল্যানিংয়ের অংক সমাধান করি।"</div>
+  </div>
+
+  <!-- SLIDE 8 -->
+  <div class="speech-card" id="s8">
+    <div class="slide-num">স্লাইড ৮ · Worked Calculations</div>
+    <div class="slide-heading">AM Worked Examples & Band Planning (ম্যাথ সলিউশন)</div>
+    <div class="script-text">
+      "শ্রদ্ধেয় স্যার, স্লাইড ৮-এ আমাদের রেফারেন্সের তিনটি গুরুত্বপূর্ণ ম্যাথ স্টেপ-বাই-স্টেপ সমাধান করা হয়েছে—<br><br>
+      <strong>উদাহরণ ১ (Modulation Index):</strong> দেওয়া আছে Amax = 10 V এবং Amin = 2 V।<br>
+      সূত্রে বসালে পাই: m = (10 - 2) / (10 + 2) = 8 / 12 = <strong>0.67 বা 67% মডুলেশন</strong>।<br><br>
+      <strong>উদাহরণ ২ (AM Bandwidth):</strong> যদি মানুষের ভয়েস অডিও হয় 5 kHz, তবে AM সিগন্যালের মোট ব্যান্ডউইথ হবে <strong>2 × 5 kHz = 10 kHz</strong>। অর্থাৎ ১০০০ কিলোহার্জের একটি স্টেশন ৯৯৫ থেকে ১০০৫ কিলোহার্জ পর্যন্ত দখল করবে।<br><br>
+      <strong>উদাহরণ ৩ (রেডিও ব্যান্ড প্ল্যানিং):</strong> মিডিয়াম ওয়েভ (MW) AM ব্যান্ডের রেঞ্জ হলো ৫৩০ থেকে ১৭০০ কিলোহার্জ (মোট ১১৭০ কিলোহার্জ)। আমেরিকার FCC স্ট্যান্ডার্ডে প্রতি স্টেশনের জন্য ১০ কিলোহার্জ জায়গা দিলে মোট চ্যানেল ধরে: <strong>1170 / 10 = 117 টি চ্যানেল</strong>।<br>
+      তবে আমাদের বাংলাদেশ, এশিয়া ও ইউরোপে প্রতি চ্যানেলে ৯ কিলোহার্জ গ্যাপ ব্যবহার করা হয় (৫৩১ থেকে ১৬০২ কিলোহার্জ), যাতে <strong>১১৯টি চ্যানেল</strong> জায়গা পায়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "AM প্রযুক্তির সবচেয়ে বড় দুর্বলতা হলো এর পাওয়ারের অপচয়। চলুন স্লাইড ৯-এ পাওয়ার ক্যালকুলেশন দেখি।"</div>
+  </div>
+
+  <!-- SLIDE 9 -->
+  <div class="speech-card" id="s9">
+    <div class="slide-num">স্লাইড ৯ · AM Power</div>
+    <div class="slide-heading">AM Power: Why Broadcast AM Wastes Watts (পাওয়ারের অপচয়)</div>
+    <div class="script-text">
+      "AM ট্রান্সমিটারের মোট পাওয়ারের সূত্র হলো:<br>
+      <strong>Pt = Pc (1 + m²/2)</strong><br><br>
+      এখানে Pc হলো ক্যারিয়ার পাওয়ার, আর বাকিটুকু সাইডব্যান্ড পাওয়ার।<br>
+      মজার ব্যাপার হলো, ক্যারিয়ার কোনো তথ্য বহন করে না, কিন্তু সবচেয়ে বেশি কারেন্ট ও ওয়াট খরচ করে এই ক্যারিয়ারই! তথ্য থাকে কেবল সাইডব্যান্ডে।<br><br>
+      <strong>উদাহরণ ৩ (Power Calculation):</strong><br>
+      ধরি ক্যারিয়ার পাওয়ার Pc = 100 Watt এবং মডুলেশন ইনডেক্স m = 0.8।<br>
+      তাহলে মোট পাওয়ার Pt = 100 × (1 + 0.64/2) = <strong>132 Watt</strong>।<br>
+      এখানে আসল কাজের পাওয়ার (সাইডব্যান্ড) মাত্র ৩২ ওয়াট! অর্থাৎ <strong>১৩২ ওয়াটের মধ্যে মাত্র ২৪.২% পাওয়ার কাজের, বাকি প্রায় ৭৬% বিদ্যুৎ শুধু ক্যারিয়ার বজায় রাখতে অপচয় হচ্ছে!</strong><br>
+      এমনকি m = 1 হলেও দুই-তৃতীয়াংশ (66.7%) পাওয়ার শুধু ক্যারিয়ারেই অপচয় হয়। এই বিশাল অপচয় রোধ করতেই বিজ্ঞানীরা FM ও SSB আবিষ্কার করেছিলেন।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এখন আমরা AM-এর ওপর একটি কুইক চেকপয়েন্ট কুইজ দেব।"</div>
+  </div>
+
+  <!-- SLIDE 10 -->
+  <div class="speech-card" id="s10">
+    <div class="slide-num">স্লাইড ১০ · Checkpoint 1</div>
+    <div class="slide-heading">Concept Check 1: AM Parameters (ইন্টারঅ্যাক্টিভ কুইজ)</div>
+    <div class="script-text">
+      "বন্ধুরা, চলুন আমরা ৩টি দ্রুত প্রশ্নের মাধ্যমে AM বিষয়গুলো যাচাই করি—<br>
+      ১ম প্রশ্ন: Amax = 12V, Amin = 4V হলে m কত? উত্তর: (12-4)/(12+4) = 8/16 = <strong>0.50 (50%)</strong>।<br>
+      ২য় প্রশ্ন: 6 kHz অডিও 900 kHz ক্যারিয়ারে দিলে ব্যান্ডউইথ কত? উত্তর: 2 × 6 = <strong>12 kHz (894 থেকে 906 kHz)</strong>।<br>
+      ৩য় প্রশ্ন: m = 1.3 হলে কী ঘটবে? উত্তর: <strong>Overmodulation হয়ে শব্দ বিকৃত হবে</strong>।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এবার আমরা আসব আমাদের দ্বিতীয় অধ্যায়ে—ফ্রিকোয়েন্সি মডুলেশন বা FM।"</div>
+  </div>
+
+  <!-- SLIDE 11 -->
+  <div class="speech-card" id="s11">
+    <div class="slide-num">স্লাইড ১১ · Frequency Modulation</div>
+    <div class="slide-heading">Frequency Modulation (FM) & The VCO (ফ্রিকোয়েন্সি মডুলেশন)</div>
+    <div class="script-text">
+      "স্যার, ফ্রিকোয়েন্সি মডুলেশনে ক্যারিয়ারের অ্যামপ্লিচিউড ও ফেজ সম্পূর্ণ স্থির থাকে, কিন্তু মেসেজ ভোল্টেজের সাথে সাথে এর <strong>ফ্রিকোয়েন্সি দ্রুত বা ধীরে কাঁপতে থাকে</strong>।<br><br>
+      তাৎক্ষণিক ফ্রিকোয়েন্সির সমীকরণ হলো: <strong>f(t) = fc + Δf · m(t)</strong><br>
+      এখানে <strong>Δf</strong> হলো Peak Frequency Deviation (ফ্রিকোয়েন্সির সর্বোচ্চ বিচ্যুতি)।<br>
+      এবং FM মডুলেশন ইনডেক্স হলো: <strong>β = Δf / fm</strong>।<br><br>
+      হার্ডওয়্যার সার্কিটে এটি তৈরি করা হয় <strong>Voltage-Controlled Oscillator (VCO)</strong> দিয়ে। ডানপাশের লাইভ গ্রাফে লক্ষ করুন: অডিও মেসেজ যখন ওপরে ওঠে, ক্যারিয়ারের সাইকেলগুলো একদম কাছাকাছি চেপে যায় (ফ্রিকোয়েন্সি বাড়ে)। মেসেজ যখন নিচে নামে, সাইকেলগুলো দূরে দূরে ছড়িয়ে যায় (ফ্রিকোয়েন্সি কমে)। কিন্তু সিগন্যালের উচ্চতা বা পিক কখনো বাড়ে বা কমে না।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "FM সিগন্যালে ঠিক কতটা ব্যান্ডউইথ লাগে? এটি বের করতে বিজ্ঞানীরা ব্যবহার করেন কারসনের রুল।"</div>
+  </div>
+
+  <!-- SLIDE 12 -->
+  <div class="speech-card" id="s12">
+    <div class="slide-num">স্লাইড ১২ · FM Bandwidth</div>
+    <div class="slide-heading">FM Spectrum & Carson’s Rule (কারসনের নিয়ম ও বেসেল ফাংশন)</div>
+    <div class="script-text">
+      "গাণিতিকভাবে FM সিগন্যালে তাত্ত্বিকভাবে <strong>অসীম সংখ্যক সাইডব্যান্ড</strong> তৈরি হয়, যেগুলোর শক্তি নির্ধারিত হয় Bessel Function <strong>|Jn(β)|</strong> দ্বারা। কিন্তু ১৯২২ সালে বিখ্যাত বিজ্ঞানী জন কারসন প্রমাণ করেন যে, n = β + 1 এর বাইরের সাইডব্যান্ডগুলোতে পাওয়ার এত কম থাকে যে তা বাদ দিলেও কোনো ক্ষতি নেই।<br><br>
+      এখান থেকেই আসে বিখ্যাত <strong>Carson's Rule</strong>:<br>
+      <strong>B(FM) ≈ 2(Δf + fm) = 2(1 + β)fm</strong><br><br>
+      এই কারসন ব্যান্ডউইথের ভেতরে মোট সিগন্যাল পাওয়ারের প্রায় <strong>৯৮% শক্তি</strong> সংরক্ষিত থাকে। ফরুজানের বই অনুসারে বাণিজ্যিক FM ব্রডকাস্টে β এর আদর্শ মান ধরা হয় ৪।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "চলুন FM ব্যান্ডউইথ ও চ্যানেল বরাদ্দের ম্যাথ সমাধান করি।"</div>
+  </div>
+
+  <!-- SLIDE 13 -->
+  <div class="speech-card" id="s13">
+    <div class="slide-num">স্লাইড ১৩ · Worked Calculations</div>
+    <div class="slide-heading">FM Worked Examples & Commercial Band Planning</div>
+    <div class="script-text">
+      "শ্রদ্ধেয় স্যার, স্লাইড ১৩-এর উদাহরণগুলো অত্যন্ত গুরুত্বপূর্ণ—<br><br>
+      <strong>উদাহরণ ৪ (Modulation Index β):</strong> দেওয়া আছে ফ্রিকোয়েন্সি ডেভিয়েশন Δf = 50 kHz এবং অডিও ফ্রিকোয়েন্সি fm = 10 kHz।<br>
+      তাহলে β = Δf / fm = 50 / 10 = <strong>5.0</strong>।<br><br>
+      <strong>উদাহরণ ৫ (Carson Bandwidth):</strong> কারসনের সূত্রে বসালে পাই:<br>
+      B(FM) = 2(50 + 10) = <strong>120 kHz</strong>।<br><br>
+      <strong>উদাহরণ ৬ (বাণিজ্যিক FM রেডিও ব্যান্ড):</strong><br>
+      বাণিজ্যিক হাই-ফাই অডিও থাকে 15 kHz পর্যন্ত। β = 4 হলে কারসন ব্যান্ডউইথ হয়: 2(1 + 4) × 15 = <strong>150 kHz</strong>।<br>
+      সরকারি নিয়মে প্রতিটি স্টেশনকে বরাদ্দ দেওয়া হয় <strong>200 kHz</strong> চ্যানেল! অর্থাৎ ১৫০ কিলোহার্জ মূল সিগন্যাল, আর বাকি ৫০ কিলোহার্জ দুইপাশে গার্ড ব্যান্ড হিসেবে থাকে যাতে পাশের স্টেশনের সাথে কোনো ওভারল্যাপ না হয়।<br>
+      ৮৮ থেকে ১০৮ মেগাহার্টজের এফএম ব্যান্ডে মোট ২০ মেগাহার্টজ জায়গা আছে। ২০০ কিলোহার্জ করে ভাগ করলে মোট <strong>১০০টি চ্যানেল</strong> হয়। একটি নির্দিষ্ট এলাকায় ইন্টারফেয়ারেন্স ঠেকাতে অল্টারনেট চ্যানেল (একটি পর একটি) ব্যবহার করায় ৫০টি স্টেশন কাজ করতে পারে।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "AM-এ যেখানে মাত্র ১০ কিলোহার্জ লাগত, FM-এ সেখানে ২০০ কিলোহার্জ খরচ করার কারণ কী? কারণ হলো অসাধারণ সাউন্ড কোয়ালিটি। চলুন স্লাইড ১৪-এ দেখি।"</div>
+  </div>
+
+  <!-- SLIDE 14 -->
+  <div class="speech-card" id="s14">
+    <div class="slide-num">স্লাইড ১৪ · Noise Immunity</div>
+    <div class="slide-heading">Why FM Sounds Cleaner than AM: The Limiter (নয়েজ ফিল্টারিং)</div>
+    <div class="script-text">
+      "মেঘের গর্জন, বজ্রপাত কিংবা গাড়ির মোটরের কারণে বাতাসে যে নয়েজ বা স্ট্যাটিক তৈরি হয়, তা সিগন্যালের <strong>উচ্চতা বা অ্যামপ্লিচিউডকে আক্রমণ করে</strong>।<br><br>
+      AM রেডিওতে মেসেজ থাকে অ্যামপ্লিচিউডের ভেতর, তাই নয়েজ সোজা স্পিকারে ঢুকে বিকট আওয়াজ করে। কিন্তু FM-এ আসল তথ্য থাকে <strong>জিরো-ক্রসিং রেট বা ফ্রিকোয়েন্সির ভেতরে</strong>, অ্যামপ্লিচিউডে নয়!<br><br>
+      তাই FM রিসিভারের প্রথম ধাপেই বসানো থাকে একটি <strong>Amplitude Limiter (স্লাইসার সার্কিট)</strong>। এটি সিগন্যালের ওপর-নিচের সমস্ত নয়েজ স্পাইক সমানভাবে কেটে সমান ফ্ল্যাট করে দেয় (ডানপাশের অসিলোস্কোপ গ্রাফে পরিষ্কার দেখা যাচ্ছে)। ফলে কোনো নয়েজ ছাড়াই একদম পরিষ্কার মিউজিক শোনা যায়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এবার আমরা আসব আমাদের তৃতীয় মডুলেশন পদ্ধতি—ফেজ মডুলেশন বা PM।"</div>
+  </div>
+
+  <!-- SLIDE 15 -->
+  <div class="speech-card" id="s15">
+    <div class="slide-num">স্লাইড ১৫ · Phase Modulation</div>
+    <div class="slide-heading">Phase Modulation (PM) & The Derivative Rule (ফেজ মডুলেশন)</div>
+    <div class="script-text">
+      "স্যার, Phase Modulation-এ ক্যারিয়ার তরঙ্গের ফেজ অ্যাঙ্গেল মেসেজ সিগন্যাল দ্বারা পরিবর্তিত হয়: <strong>s(t) = Ac cos(2π fc t + kp · m(t))</strong>।<br><br>
+      এখানে পদার্থবিজ্ঞানের সবচেয়ে চমৎকার নীতিটি কাজ করে: <strong>ফ্রিকোয়েন্সি হলো ফেজের ডিফারেনশিয়াল (Derivative) বা ঢাল!</strong><br>
+      অর্থাৎ, <strong>কোনো সিগন্যালের ফেজ মডুলেশন করা মানে তার ডেরিভেটিভের (dm/dt) ফ্রিকোয়েন্সি মডুলেশন করা!</strong><br><br>
+      সহজ কথায়: FM-এ ফ্রিকোয়েন্সি সবচেয়ে বেশি বাড়ে যেখানে মেসেজের মান সবচেয়ে উঁচু। কিন্তু PM-এ ফ্রিকোয়েন্সি সবচেয়ে বেশি বাড়ে যেখানে মেসেজ <strong>সবচেয়ে দ্রুত পরিবর্তিত হয় (Maximum Slope)</strong>! সাইন ওয়েভের পিকে যখন ভোল্টেজ সর্বোচ্চ, তখন তার ঢাল শূন্য—তাই PM ফ্রিকোয়েন্সি স্বাভাবিক ক্যারিয়ার fc এর সমান থাকে। কিন্তু যখন সাইন ওয়েভ শূন্য লাইন অতিক্রম করে, তখন তার পরিবর্তনের গতি সবচেয়ে বেশি—তাই PM ফ্রিকোয়েন্সি সবচেয়ে বড় সুইং দেয়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "চলুন এবার AM, FM এবং PM-এর পূর্ণাঙ্গ তুলনামূলক টেবিলটি প্রজেক্টরে একনজরে দেখে নিই।"</div>
+  </div>
+
+  <!-- SLIDE 16 -->
+  <div class="speech-card" id="s16">
+    <div class="slide-num">স্লাইড ১৬ · Comparison Table</div>
+    <div class="slide-heading">AM, FM and PM Compared (একনজরে তুলনা)</div>
+    <div class="script-text">
+      "এই তুলনামূলক চার্টটি পুরো লেকচারের সারসংক্ষেপ প্রকাশ করে—<br><br>
+      ১. <strong>কী পরিবর্তন হয়?</strong> AM-এ বিস্তার, FM-এ কম্পাঙ্ক, PM-এ দশা কোণ।<br>
+      ২. <strong>ব্যান্ডউইথ:</strong> AM-এ সবচেয়ে কম (2B ≈ 10 kHz), FM-এ বেশি (150–200 kHz), PM-এ মাঝারি।<br>
+      ৩. <strong>নয়েজ প্রতিরোধ ক্ষমতা:</strong> AM খুব দুর্বল, FM ও PM অত্যন্ত চমৎকার।<br>
+      ৪. <strong>পাওয়ার দক্ষতা:</strong> AM-এর দক্ষতা খুবই খারাপ (ক্যারিয়ার অপচয়), FM ও PM উচ্চ দক্ষতাসম্পন্ন।<br>
+      ৫. <strong>রিসিভার সার্কিট:</strong> AM সবচেয়ে সহজ (একটি ডায়োড ও ফিল্টার), FM মাঝারি (লিমিটার ও ডিসক্রিমিনেটর), PM কিছুটা জটিল।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "চলুন স্লাইড ১৭-এ তিনটি সিগন্যালকে লাইভ জেনারেট করে নিজের চোখে দেখি।"</div>
+  </div>
+
+  <!-- SLIDE 17 -->
+  <div class="speech-card" id="s17">
+    <div class="slide-num">স্লাইড ১৭ · Live Simulator</div>
+    <div class="slide-heading">Interactive Modulation Bench (সরাসরি সিমুলেটর)</div>
+    <div class="script-text">
+      "স্যার, এই স্লাইডে আমাদের ইন-বিল্ট সিমুলেটর রয়েছে। এখানে আমরা মেসেজ সিগন্যাল হিসেবে সাইন ওয়েভ, ট্রায়াঙ্গুলার ওয়েভ এবং স্কয়ার ওয়েভ নির্বাচন করতে পারি। স্কয়ার ওয়েভ সিলেক্ট করলে লক্ষ করুন—যেখানে স্কয়ার ওয়েভের এজগুলো শার্প ড্রপ করছে, PM তরঙ্গে ঠিক সেই পয়েন্টগুলোতে তাৎক্ষণিক ফ্রিকোয়েন্সি স্পাইক দেখা যাচ্ছে, যা আমাদের ডেরিভেটিভ নীতিকে শতভাগ প্রমাণ করে।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এবার আমরা FM ও PM-এর ওপর আমাদের দ্বিতীয় কনসেপ্ট চেকপয়েন্টে যাব।"</div>
+  </div>
+
+  <!-- SLIDE 18 -->
+  <div class="speech-card" id="s18">
+    <div class="slide-num">স্লাইড ১৮ · Checkpoint 2</div>
+    <div class="slide-heading">Checkpoint 2: FM & PM Mastery (কুইজ ২)</div>
+    <div class="script-text">
+      "বন্ধুরা, চলুন স্ক্রিনের প্রশ্নগুলোর উত্তর মেলাই—<br>
+      ১ম প্রশ্ন: 5 kHz অডিওতে AM, FM (β=5), এবং PM (β=1) এর ব্যান্ডউইথ কত? উত্তর: AM = <strong>10 kHz</strong>, FM = 2(1+5)×5 = <strong>60 kHz</strong>, PM = 2(1+1)×5 = <strong>20 kHz</strong>।<br>
+      ২য় প্রশ্ন: Δf = 50 kHz, fm = 10 kHz হলে β ও কারসন ব্যান্ডউইথ কত? উত্তর: β = <strong>5.0</strong> এবং Bandwidth = <strong>120 kHz</strong>।<br>
+      ৩য় প্রশ্ন: FM রিসিভারে লিমিটারের কাজ কী? উত্তর: <strong>অ্যামপ্লিচিউড নয়েজ ছেঁটে ফেলা</strong>।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এখন আমরা দেখব এই মডুলেটেড সিগন্যাল থেকে কীভাবে রিসিভারে আসল মেসেজটি ফেরত পাওয়া যায়, যাকে বলা হয় ডিমডুলেশন।"</div>
+  </div>
+
+  <!-- SLIDE 19 -->
+  <div class="speech-card" id="s19">
+    <div class="slide-num">স্লাইড ১৯ · Demodulation</div>
+    <div class="slide-heading">Demodulation: Recovering the Original Message (ডিমডুলেশন সার্কিট)</div>
+    <div class="script-text">
+      "ডিমডুলেশন হলো মডুলেশনের বিপরীত প্রক্রিয়া—রেডিও তরঙ্গ থেকে মূল অডিও আলাদা করা।<br><br>
+      <strong>১. AM Envelope Detector:</strong> এটি পৃথিবীর সবচেয়ে সরল রেডিও সার্কিট। এতে থাকে একটি <strong>ডায়োড</strong> এবং একটি <strong>RC লো-পাস ফিল্টার</strong>। ডায়োডটি সিগন্যালের নেগেটিভ হাফ কেটে ফেলে শুধু পজিটিভ হাফ পাস করায়। তারপর ক্যাপাসিটরটি আরএফ পিকে চার্জ হয় এবং অডিও ফ্রিকোয়েন্সির সাথে সাথে স্লো ডিসচার্জ হয়ে নিখুঁত অডিও এনভেলপকে বের করে আনে!<br><br>
+      <strong>২. FM Receiver:</strong> এতে সিগন্যাল প্রথমে <strong>Limiter</strong>-এ গিয়ে নয়েজমুক্ত হয়। তারপর <strong>Frequency Discriminator বা Phase-Locked Loop (PLL)</strong> ফ্রিকোয়েন্সির তারতম্যকে অ্যানালগ ভোল্টেজে রূপান্তর করে মূল ভয়েস ফিরিয়ে দেয়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "চলুন স্লাইড ২০-এ একটি লাইভ এনভেলপ ডিটেক্টরের চার্জ ও ডিসচার্জ টাইম কনস্ট্যান্ট পরীক্ষা করি।"</div>
+  </div>
+
+  <!-- SLIDE 20 -->
+  <div class="speech-card" id="s20">
+    <div class="slide-num">স্লাইড ২০ · Live Envelope Detector</div>
+    <div class="slide-heading">Interactive Demodulator: Envelope Detector Live (RC ফিল্টারিং)</div>
+    <div class="script-text">
+      "স্যার, এই স্ক্রিনে সবুজ রঙের রেখাটি হলো আমাদের ডিমডুলেটেড অডিও আউটপুট।<br>
+      এখানে টাইম কনস্ট্যান্ট τ = RC ঠিকমতো টিউন করা অত্যন্ত গুরুত্বপূর্ণ। যদি RC খুব ছোট হয়, ক্যারিয়ারের খাঁজগুলো অডিওতে ঢুকে রিডল তৈরি করে। আবার RC যদি খুব বড় হয়, ক্যাপাসিটর দ্রুত নামতে পারে না, যাকে ডায়াগোনাল ক্লিপিং বলে। মাঝখানের নিখুঁত টিউনিংয়ে সবুজ রেখাটি হুবহু আমাদের আসল গান বা কথার সাথে মিলে যায়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এবার আমরা আসব আমাদের লেকচারের সর্বশেষ তাত্ত্বিক সংযোগে—কীভাবে মডুলেশন মাল্টিপ্লেক্সিংয়ের পথ তৈরি করে।"</div>
+  </div>
+
+  <!-- SLIDE 21 -->
+  <div class="speech-card" id="s21">
+    <div class="slide-num">স্লাইড ২১ · Bridge to FDM</div>
+    <div class="slide-heading">Many Stations, One Medium: The Bridge to FDM (মাল্টিপ্লেক্সিংয়ের সেতু)</div>
+    <div class="script-text">
+      "শ্রদ্ধেয় শিক্ষক মহোদয়, মডুলেশনের সবচেয়ে বড় স্বার্থকতা হলো এটি <strong>Frequency-Division Multiplexing বা FDM</strong> এর ভিত্তিপ্রস্তর স্থাপন করে।<br><br>
+      বাতাস, অপটিক্যাল ফাইবার কিংবা কো-অ্যাক্সিয়াল ক্যাবল—মাধ্যম একটাই। কিন্তু স্টেশন ১-কে ক্যারিয়ার fc1 এ, স্টেশন ২-কে fc2 তে এবং স্টেশন ৩-কে fc3 তে মডুলেট করে মাঝখানে অল্প গার্ড ব্যান্ড রেখে দিলে, <strong>একটি মাত্র মাধ্যম দিয়ে একসাথে শত শত সিগন্যাল পাশাপাশি কোনো সংঘর্ষ ছাড়াই ট্রাভেল করতে পারে</strong>। এটিই আমাদের আগামী লেকচার ০৯ (Multiplexing & Spread Spectrum)-এর মূল আলোচ্য বিষয়।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এখন আমরা আমাদের চূড়ান্ত ৪টি প্রশ্নের ফাইনাল কুইজের মাধ্যমে আজকের ক্লাস মূল্যায়ন করব।"</div>
+  </div>
+
+  <!-- SLIDE 22 -->
+  <div class="speech-card" id="s22">
+    <div class="slide-num">স্লাইড ২২ · Final Assessment</div>
+    <div class="slide-heading">Comprehensive Final Assessment & Scorecard (ফাইনাল কুইজ)</div>
+    <div class="script-text">
+      "ক্লাসের বন্ধুরা, চলুন আমরা ফাইনাল অ্যাসেসমেন্টের ৪টি প্রশ্ন শেষ করি—<br>
+      ১. Pc = 400 W এবং m = 1.0 হলে মোট পাওয়ার কত? উত্তর: 400 × (1 + 0.5) = <strong>600 W (সাইডব্যান্ডে 200 W)</strong>।<br>
+      ২. ৫৩০ থেকে ১৭০০ কিলোহার্জের AM ব্যান্ডে ১০ কিলোহার্জ করে মোট কয়টি চ্যানেল ধরে? উত্তর: <strong>১১৭টি চ্যানেল</strong>।<br>
+      ৩. PM কীভাবে FM থেকে আলাদা? উত্তর: <strong>PM-এ ফ্রিকোয়েন্সি মেসেজের ডেরিভেটিভ বা ঢাল (dm/dt) অনুযায়ী পরিবর্তিত হয়</strong>।<br>
+      ৪. ট্রু/ফলস: বাণিজ্যিক FM-এ ১৫ কিলোহার্জ অডিওর কারসন ব্যান্ডউইথ ১৫০ কিলোহার্জ হওয়া সত্ত্বেও চ্যানেল ২০০ কিলোহার্জ দেওয়া হয় গার্ড ব্যান্ডের জন্য। উত্তর: <strong>True (সত্য)</strong>।"
+    </div>
+    <div class="transition-box">👉 <em>পরের স্লাইডে যাওয়ার কথা:</em> "এবার আমরা আমাদের প্রেজেন্টেশনের সমাপনীতে চলে আসব।"</div>
+  </div>
+
+  <!-- SLIDE 23 -->
+  <div class="speech-card special" id="s23">
+    <div class="slide-num">স্লাইড ২৩ · Formal Closing Speech</div>
+    <div class="slide-heading">সমাপনী বক্তব্য ও শিক্ষক মহোদয়কে ধন্যবাদ জ্ঞাপন:</div>
+    <div class="script-text">
+      "শ্রদ্ধেয় কোর্স শিক্ষক এবং আমার প্রিয় সহপাঠী বন্ধুরা,<br><br>
+      এই ছিল আমাদের <strong>Data Communication লেকচার ০৮: Analog-to-Analog Conversion</strong>-এর পূর্ণাঙ্গ আলোচনা।<br><br>
+      আজকের উপস্থাপনায় আমরা দেখেছি কীভাবে মডুলেশন অ্যানালগ ভয়েসকে অ্যান্টেনার বাস্তব সীমাবদ্ধতা পেরিয়ে বিশ্বজুড়ে ছড়িয়ে দেয়। আমরা জেনেছি কেন AM পাওয়ারের অপচয় করে এবং কীভাবে FM লিমিটার ব্যবহারের মাধ্যমে নয়েজমুক্ত ক্রিস্টাল-ক্লিয়ার অডিও নিশ্চিত করে কারসনের রুল মেনে চলে।<br><br>
+      আমাদের এই চমৎকার সিলেবাস ও অনুপ্রেরণাদায়ী গাইডলাইনের জন্য আমি আন্তরিক কৃতজ্ঞতা জানাচ্ছি আমাদের কোর্স শিক্ষক <strong>মোঃ মাহবুব ই নূর</strong> স্যারকে (সহকারী অধ্যাপক, কম্পিউটার সায়েন্স অ্যান্ড ইঞ্জিনিয়ারিং বিভাগ, বরিশাল বিশ্ববিদ্যালয়)।<br><br>
+      ধৈর্য ধরে মনোযোগ দিয়ে আমার বক্তব্য শোনার জন্য আপনাদের সবাইকে অসংখ্য ধন্যবাদ। আজকের টপিক নিয়ে শিক্ষক মহোদয় বা বন্ধুদের কোনো প্রশ্ন বা মতামত থাকলে আমি আনন্দচিত্তে গ্রহণ করছি।<br><br>
+      ধন্যবাদ সবাইকে। আসসালামু আলাইকুম।"
+    </div>
+  </div>
+
+  <footer>
+    প্রেজেন্টেশন: Asraful Islam (240102029) · CSE, University of Barishal
+  </footer>
+
+</body>
+</html>
